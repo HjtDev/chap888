@@ -1,0 +1,100 @@
+{% load static %}
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="keywords" content="HTML5,CSS3,HTML,Template,multi-page,Roose - Roofing Services HTML Template">
+    <meta name="description" content="Roose - Roofing Services HTML Template">
+    <meta name="author" content="Barat Hadian">
+
+    <link rel="stylesheet" href="{% static 'assets/css/bootstrap.rtl.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/owl.theme.default.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/owl.carousel.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/remixicon.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/flaticon.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/meanmenu.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/animate.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/odometer.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/date-picker.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/before-after.min.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/responsive.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/css/rtl.css' %}">
+
+
+    <link rel="stylesheet" href="a{% static 'assets/datepicker-jalali/css/persianDatepicker-default.css' %}"/>
+
+
+    <link rel="icon" type="image/png" href="{% static 'assets/images/favicon.png' %}">
+
+    <title>چاپ 888 | {% block title %}{% endblock %}</title>
+    {% block header %}{% endblock %}
+</head>
+<body>
+
+<div class="preloader">
+    <div class="lds-ripple">
+        <div class="pl-flip-1 pl-flip-2"></div>
+    </div>
+</div>
+
+{% include 'partials/header.html' %}
+{% block content %}{% endblock %}
+{% include 'partials/footer.html' %}
+
+<div class="go-top">
+    <i class="ri-arrow-up-s-fill"></i>
+    <i class="ri-arrow-up-s-fill"></i>
+</div>
+
+<script src="{% static 'assets/js/jquery.min.js' %}"></script>
+
+<script src="{% static 'assets/js/bootstrap.bundle.min.js' %}"></script>
+
+<script src="{% static 'assets/js/meanmenu.min.js' %}"></script>
+
+<script src="{% static 'assets/js/owl.carousel.min.js' %}"></script>
+
+<script src="{% static 'assets/js/carousel-thumbs.min.js' %}"></script>
+
+<script src="{% static 'assets/js/wow.min.js' %}"></script>
+
+<script src="{% static 'assets/js/appear.min.js' %}"></script>
+
+<script src="{% static 'assets/js/odometer.min.js' %}"></script>
+
+<script src="{% static 'assets/js/jarallax.min.js' %}"></script>
+
+<script src="{% static 'assets/js/bootstrap-datepicker.min.js' %}"></script>
+
+<script src="{% static 'assets/js/mixitup.min.js' %}"></script>
+
+<script src="{% static 'assets/js/before-after.min.js' %}"></script>
+
+<script src="{% static 'assets/js/form-validator.min.js' %}"></script>
+
+<script src="{% static 'assets/js/contact-form-script.js' %}"></script>
+
+<script src="{% static 'assets/js/ajaxchimp.min.js' %}"></script>
+
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+<script src="{% static 'assets/datepicker-jalali/js/persianDatepicker.min.js' %}"></script>
+<script src="{% static 'assets/datepicker-jalali/picker-style.js' %}"></script>
+{% block script %}{% endblock %}
+</body>
+</html>

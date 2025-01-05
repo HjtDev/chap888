@@ -1,0 +1,369 @@
+{% load static %}
+<header class="header-area fixed-top">
+
+    <div class="top-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 col-md-6">
+                    <ul class="header-left-content">
+                        <li>
+                            <span>اشتراک گذاری:</span>
+                        </li>
+                        <li>
+                            <a href="https://www.facebook.com/" target="_blank">
+                                <i class="ri-facebook-fill"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/" target="_blank">
+                                <i class="ri-instagram-line"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/" target="_blank">
+                                <i class="ri-linkedin-fill"></i>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://twitter.com/" target="_blank">
+                                <i class="ri-twitter-fill"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="header-right-content">
+                        <div class="languages-switcher">
+                            <i class="ri-global-line"></i>
+                            <select>
+                                <option value="1">فارسی</option>
+                                <option value="2">العربيّة</option>
+                                <option value="3">Deutsch</option>
+                                <option value="4">Português</option>
+                                <option value="5">简体中文</option>
+                            </select>
+                        </div>
+                        <div class="my-account">
+                            <a href="my-account.html">
+                                <i class="ri-user-fill"></i>
+                            </a>
+                        </div>
+                        <div class="cart-icon">
+                            <a href="cart.html">
+                                <i class="ri-shopping-cart-line"></i>
+                                <span>03</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="navbar-area">
+        <div class="mobile-responsive-nav">
+            <div class="container">
+                <div class="mobile-responsive-menu">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="{% static 'assets/images/logo.png' %}" alt="logo">
+                        </a>
+                    </div>
+                    <div class="others-options-for-mobile-devices">
+                        <ul>
+                            <li>
+                                <button type="button" class="search-btn" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModalsrc">
+                                    <i class="ri-search-line"></i>
+                                </button>
+                            </li>
+                            <li>
+<span class="burger-menu">
+<i class="ri-menu-line"></i>
+</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="desktop-nav">
+            <div class="container">
+                <nav class="navbar navbar-expand-md navbar-light">
+                    <a class="navbar-brand" href="index.html">
+                        <img src="{% static 'assets/images/logo.png' %}" alt="logo">
+                    </a>
+                    <div class="collapse navbar-collapse mean-menu" id="navbarSupportedContent">
+                        <ul class="navbar-nav m-auto">
+                            <li class="nav-item">
+                                <a href="#" class="nav-link active">
+                                    خانه
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="index.html" class="nav-link active">صفحه اصلی 1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="index-2.html" class="nav-link">صفحه اصلی 2</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="index-3.html" class="nav-link">صفحه اصلی 3</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="about.html" class="nav-link">درباره ما</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    صفحات
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            پروژه ها
+                                            <i class="ri-arrow-down-s-line"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item">
+                                                <a href="projects.html" class="nav-link">پروژه ها</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="projects-details.html" class="nav-link">جزئیات پروژه</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="team.html" class="nav-link">تیم ما</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="testimonial.html" class="nav-link">بازخورد مشتریان</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="faq.html" class="nav-link">سوالات متداول</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link">
+                                            کاربران
+                                            <i class="ri-arrow-down-s-line"></i>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li class="nav-item">
+                                                <a href="my-account.html" class="nav-link">حساب کاربری</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="log-in.html" class="nav-link">ورود کاربران</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="register.html" class="nav-link">ثبت نام</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a href="get-free-quote.html" class="nav-link">درخواست نقل قول</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="partner-details.html" class="nav-link">جزئیات پارتنر</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="privacy-policy.html" class="nav-link">حریم خصوصی</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="terms-conditions.html" class="nav-link">شرایط و ضوابط</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="coming-soon.html" class="nav-link">به زودی</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="404.html" class="nav-link">خطا 404</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    خدمات
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="services.html" class="nav-link">خدمات ما</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="services-details.html" class="nav-link">جزئیات خدمات</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    فروشگاه
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="products.html" class="nav-link">فروشگاه</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="cart.html" class="nav-link">سبد خرید</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="checkout.html" class="nav-link">بررسی محصول</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="product-details.html" class="nav-link">جزئیات محصول</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    وبلاگ
+                                    <i class="ri-arrow-down-s-line"></i>
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li class="nav-item">
+                                        <a href="blog.html" class="nav-link">وبلاگ ما</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="blog-grid.html" class="nav-link">وبلاگ شبکه ای</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="blog-left-sidebar.html" class="nav-link">وبلاگ سایدبار 1</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="blog-details.html" class="nav-link">جزئیات وبلاگ</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item">
+                                <a href="contact.html" class="nav-link">تماس با ما</a>
+                            </li>
+                        </ul>
+                        <div class="others-options">
+                            <ul>
+                                <li>
+                                    <button type="button" class="search-btn" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalsrc">
+                                        <i class="ri-search-line"></i>
+                                    </button>
+                                </li>
+                                <li>
+<span class="burger-menu">
+<i class="ri-menu-line"></i>
+</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+
+</header>
+
+
+<div class="modal fade search-modal-area" id="exampleModalsrc">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <button type="button" data-bs-dismiss="modal" class="closer-btn">
+                <i class="ri-close-line"></i>
+            </button>
+            <div class="modal-body">
+                <form class="search-box">
+                    <div class="search-input">
+                        <input type="text" name="Search" placeholder="جستجو..." class="form-control">
+                        <button type="submit" class="search-btn">
+                            <i class="ri-search-line"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="sidebar-modal">
+    <div class="sidebar-modal-inner">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="{% static 'assets/images/logo.png' %}" alt="Image">
+            </div>
+            <span class="close-btn sidebar-modal-close-btn">
+<i class="ri-close-line"></i>
+</span>
+        </div>
+        <div class="contact-us">
+            <h3>در تماس باشید</h3>
+            <ul>
+                <li>
+                    <i class="ri-map-pin-fill"></i>
+                    <span>موقعیت</span>
+                    ایران ، استان تهران ، میدان آزادی
+                </li>
+                <li>
+                    <span>ایمیل</span>
+                    <i class="ri-mail-fill"></i>
+                    <a href="mailto: hello@roose.com"> hello@roose.com</a>
+                </li>
+                <li>
+                    <span>تلفن</span>
+                    <i class="ri-phone-fill"></i>
+                    <a href="tel:+1-(514)-312-5678">+1 (514) 312-5678</a>
+                </li>
+            </ul>
+        </div>
+        <div class="recent-product">
+            <h3>گالری ما</h3>
+            <ul>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-1.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-2.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-3.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-4.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-5.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-6.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-7.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-8.jpg' %}" alt="Image">
+                    </a>
+                </li>
+                <li>
+                    <a href="projects-details.html">
+                        <img src="{% static 'assets/images/gallery/gallery-9.jpg' %}" alt="Image">
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
