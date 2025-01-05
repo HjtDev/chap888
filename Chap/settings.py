@@ -143,3 +143,17 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# User Model
+
+AUTH_USER_MODEL = 'account.User'
+
+# Jazzmin Admin Panel
+
+JAZZMIN_SETTINGS = {
+    'custom_css': 'css/admin.css'
+}
+
+admin.sites.AdminSite.site_header = 'پنل مدیریت'
+admin.sites.AdminSite.site_title = 'فروشگاه'
+admin.sites.AdminSite.index_title = 'پنل مدیریت'
