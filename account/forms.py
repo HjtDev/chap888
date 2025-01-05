@@ -35,3 +35,30 @@ class UserChangeFormNew(UserChangeForm):
     class Meta:
         model = User
         fields = ('phone', 'first_name', 'last_name', 'is_active', 'is_staff', 'is_superuser')
+
+
+class RegisterForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('phone', 'first_name', 'last_name', 'password1', 'password2')
+
+    def clean_phone(self):
+        phone = self.cleaned_data.get('phone')
+
+        if self.instance.pk:
+            if User.objects.filter(phone=phone).exclude(pk=self.instance.pk).exists():
+                raise forms.ValidationError('این شماره تلفن قبلا استفاده شده است.')
+        else:
+            if User.objects.filter(phone=phone).exists():
+                raise forms.ValidationError('این شماره تلفن قبلا استفاده شده است.')
+
+        if not phone.isdigit():
+            raise forms.ValidationError('شماره تلفن فقط شامل اعداد می باشد.')
+
+        if not phone.startswith('09'):
+            raise forms.ValidationError('شماره تلفن باید با 09 آغاز شود.')
+
+        if len(phone) != 11:
+            raise forms.ValidationError('شماره تلفن باید 11 رقمی باشد.')
+
+        return phone
