@@ -2,7 +2,7 @@
 {% load alert_tags %}
 
 {% block title %}
-    ورود به حساب کاربری
+    احراز هویت
 {% endblock %}
 
 {% block content %}
@@ -31,7 +31,7 @@
         <div class="container">
             <div class="user-form-content register">
                 <h3>احراز هویت</h3>
-                {% render_messages form=form %}
+                {% render_messages %}
                 <form class="user-form" method="post">
                     {% csrf_token %}
                     <div class="row">

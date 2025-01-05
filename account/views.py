@@ -49,11 +49,16 @@ def verify_view(request):
             if user:
                 user.save()
                 del request.session['auth']
+                target_page: str | None = request.session.get('next', None)
                 session = request.session
                 login(request, user)
                 request.session = session
                 request.session.modified = True
+                if target_page is not None:
+                    del request.session['next']
+                    return redirect(target_page)
                 return redirect('main:index')
+
             else:
                 messages.error(request, 'در فرایند ثبت نام مشکلی پیش آمد لطفا مجددا تلاش کنید و در صورت حل نشدن مشکل با پشتیبانی سایت تماس بگیرید.')
                 prev_page = auth['prev']
