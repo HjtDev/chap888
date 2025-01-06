@@ -44,12 +44,12 @@
                             </select>
                         </div>
                         <div class="my-account">
-                            <a href="my-account.html">
+                            <a href="{% if request.user.is_authenticated %}{{ request.user.phone }}{% else %}{% url 'account:login' %}{% endif %}">
                                 <i class="ri-user-fill"></i>
                             </a>
                         </div>
                         <div class="cart-icon">
-                            <a href="cart.html">
+                            <a href="{% url 'account:logout' %}">
                                 <i class="ri-shopping-cart-line"></i>
                                 <span>03</span>
                             </a>
