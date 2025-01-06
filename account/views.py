@@ -1,11 +1,16 @@
 from django.contrib import messages
-from django.contrib.auth import login
+from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from .forms import RegisterForm
 from django.core.cache import cache
 from datetime import datetime, timedelta
 from random import randint
 from .models import User
+def login_user(request, user):
+    session = request.session
+    login(request, user)
+    request.session = session
+
 
 
 def register_view(request):
@@ -25,6 +30,31 @@ def register_view(request):
             return render(request, 'register.html', {'form': form})
     else:
         return render(request, 'register.html')
+
+def login_view(request, phone=None):
+    if request.user.is_authenticated:
+        return redirect('main:index')
+    if phone:
+        try:
+            user = User.objects.get(phone=phone)
+            return sms_authentication(request, phone, user, 'account:login')
+        except User.DoesNotExist:
+            messages.error(request, 'کاربری با این شماره تلفن یافت نشد.')
+            return render(request, 'login.html')
+    if request.method == 'POST':
+        user = authenticate(request, username=request.POST.get('phone'), password=request.POST.get('password'))
+        if not user:
+            messages.error(request, 'شماره تلفن یا گذرواژه صحیح نمی باشد.')
+            return render(request, 'login.html', {'phone': request.POST.get('phone')})
+        else:
+            target_page: str | None = request.session.get('next', None)
+            login_user(request, user)
+            if target_page is not None:
+                del request.session['next']
+                return redirect(target_page)
+            return redirect('main:index')
+    else:
+        return render(request, 'login.html')
 
 
 def verify_view(request):

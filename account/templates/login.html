@@ -1,0 +1,118 @@
+{% extends 'parent/base.html' %}
+{% load alert_tags %}
+
+{% block title %}
+    ورود به حساب کاربری
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-title-area bg-11 mt-100">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>ورود کاربران</h2>
+                <ul>
+                    <li>
+                        <a href="{% url 'main:index' %}">
+                            خانه
+                        </a>
+                    </li>
+                    <li class="active">ورود کاربران</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="user-area ptb-100">
+        <div class="container">
+            <div class="user-form-content log-in-page">
+                <h3>ورود به حساب کاربری</h3>
+                {% render_messages %}
+                <form class="user-form" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>شماره تلفن</label>
+                                <input class="form-control" type="text" name="phone" id="phone-input" minlength="11"
+                                       maxlength="11" placeholder="09xxxxxxxxx" value="{{ phone }}"
+                                       required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>گذرواژه</label>
+                                <input class="form-control" type="password" name="password" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="login-action">
+                                <span class="forgot-login">
+                                    <a id="reset-password" style="cursor: pointer;">فراموشی گذرواژه؟</a>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="default-btn" type="submit">
+                                ورود
+                            </button>
+                        </div>
+                        <div class="col-12">
+                            <span class="or">یا</span>
+                        </div>
+                        <div class="col-lg-12 col-md-12">
+                            <a class="or-login" id="sms-login" style="cursor: pointer;">
+                                <i class="ri-mail-add-fill"></i>
+                                ورود از طریق پیامک
+                            </a>
+                        </div>
+                        <div class="col-12">
+                            <p class="create">حساب کاربری ندارید؟ <a href="{% url 'account:register' %}">ثبت نام</a></p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('#sms-login').on('click', function () {
+                const phone = $('#phone-input').val();
+                if (phone.length === 11 && /^\d+$/.test(phone)) {
+                    window.location.href = `http://localhost:8000/accounts/login/${phone}/`;
+                } else {
+                    alert('شماره تلفن باید 11 رقمی باشد و با 09 آغاز شود.');
+                }
+            });
+
+            $('#reset-password').on('click', function () {
+                const phone = $('#phone-input').val();
+                console.log(phone);
+                if (phone.length === 11 && /^\d+$/.test(phone)) {
+                    $.ajax({
+                        url: 'http://localhost:8000/accounts/reset/',
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify({phone: phone}),
+                        headers: {
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        success: function (data) {
+                            window.location.href = data.redirect;
+                        },
+                        error: function (xhr) {
+                            console.error('Error:', xhr);
+                            alert('An error occurred while processing your request.');
+                        }
+                    });
+                } else {
+                    alert('شماره تلفن باید 11 رقمی باشد و با 09 آغاز شود.');
+                }
+            });
+        });
+    </script>
+{% endblock %}
