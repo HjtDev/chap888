@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="page-title-area bg-12">
+    <div class="page-title-area bg-12 mt-100">
         <div class="container">
             <div class="page-title-content">
                 <h2>احراز هویت</h2>
@@ -14,11 +14,6 @@
                     <li>
                         <a href="{% url 'main:index' %}">
                             خانه
-                        </a>
-                    </li>
-                    <li>
-                        <a href="{% url 'account:register' %}">
-                            ثبت نام
                         </a>
                     </li>
                     <li class="active">احراز هویت</li>
@@ -38,7 +33,8 @@
                         <div class="col-12">
                             <div class="form-group">
                                 <label>کد تایید</label>
-                                <input class="form-control" type="text" maxlength="6" minlength="6" name="token" value="{{ token | default:'' }}" required>
+                                <input class="form-control" type="text" maxlength="6" minlength="6" name="token"
+                                       value="{{ token | default:'' }}" placeholder="123456" required>
                             </div>
                         </div>
                         <div class="col-12">
