@@ -29,3 +29,16 @@ def sms_authentication(request, phone, user, previous_page='main:index', json_re
     messages.info(request, f'جهت ارسال مجدد پیامک 2 دقیقه صبر کنید.')
     return response()
 
+def price_list(request):
+    return JsonResponse({
+        'A3': 3000,
+        'A4': 2000,
+        'A5': 1000,
+        'W&B': 500,
+        'C50': 5000,
+        'C100': 9000,
+        'COVERED_NO_PUNCH': 2200,
+        'COVERED_PUNCHED': 3000,
+        'NO_BINDING': 0
+    })
+
