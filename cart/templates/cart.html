@@ -1,0 +1,152 @@
+{% extends 'parent/base.html' %}
+
+{% block content %}
+    <div class="page-title-area bg-15 mt-100">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>سبد خرید</h2>
+                <ul>
+                    <li>
+                        <a href="{% url 'main:index' %}">
+                            خانه
+                        </a>
+                    </li>
+                    <li class="active">سبد خرید</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="cart-area ptb-100">
+        <div class="container">
+            <form class="cart-controller">
+                <div class="cart-table table-responsive">
+                    <table class="table table-bordered">
+                        <thead>
+                        <tr>
+                            <th scope="col">حذف</th>
+                            <th scope="col">فایل</th>
+                            <th scope="col">نام فایل</th>
+                            <th scope="col">تعداد صفحات</th>
+                            <th scope="col">ابعاد</th>
+                            <th scope="col">رنگ</th>
+                            <th scope="col">چاپ</th>
+                            <th scope="col">صحافی</th>
+                            <th scope="col">تعداد</th>
+                            <th scope="col">قیمت</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in cart %}
+                            <tr id="row-document-{{ item.document.id }}">
+                                <td class="trash">
+                                    <a href="" data-document="{{ item.document.id }}" class="remove">
+                                        <i class="ri-delete-bin-line"></i>
+                                    </a>
+                                </td>
+                                <td class="document-thumbnail">
+                                    <a href="">
+                                        <img src="{{ item.document.thumbnail.url }}" alt="{{ item.document }}">
+                                    </a>
+                                </td>
+                                <td class="document-name">
+                                    <a href="">{{ item.document }}</a>
+                                </td>
+                                <td class="document-pages">
+                                    <a href="">{{ item.document.get_page_count }}</a>
+                                </td>
+                                <td class="document-size">
+                                    <a href="">{{ item.options.page_size }}</a>
+                                </td>
+                                <td class="document-color">
+                                    <a href="">{{ item.options.print_color }}</a>
+                                </td>
+                                <td class="document-type">
+                                    <a href="">{{ item.options.print_type }}</a>
+                                </td>
+                                <td class="document-extra">
+                                    <a href="">{{ item.options.extra_options }}</a>
+                                </td>
+                                <td class="document-quantity">
+                                    <div class="input-counter">
+                                        <span class="minus-btn">
+                                            <i class="ri-subtract-line"></i>
+                                        </span>
+                                            <input type="text" value="{{ item.quantity }}" class="text-center w-50">
+                                            <span class="plus-btn">
+                                            <i class="ri-add-line"></i>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="document-subtotal">
+                                    <span class="subtotal-amount">9900 تومان</span>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </form>
+            <div class="coupon-cart">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <a href="" class="default-btn update-cart w-100">
+                            اضافه کردن فایل
+                        </a>
+                    </div>
+                    <div class="col-lg-6 col-md-6">
+                        <a href="" class="default-btn update-cart w-100">
+                            ذخیره سبد خرید
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-totals">
+                <h3 class="cart-checkout-title">خلاصه پرداخت</h3>
+                <ul>
+                    <li>زیر مجموعه <span>8400 تومان</span></li>
+                    <li>کرایه حمل <span>1300 تومان</span></li>
+                    <li>مجموع <span>6500 تومان</span></li>
+                    <li><b>مبلغ قابل پرداخت</b> <span><b>6500 تومان</b></span></li>
+                </ul>
+                <a href="" class="default-btn">
+                    ادامه پرداخت
+                </a>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(document).ready(function () {
+            $('.remove').on('click', function (e) {
+                e.preventDefault(); // Prevent default anchor behavior
+
+                var documentId = $(this).data('document'); // Get the document ID from data attribute
+
+                // Send AJAX POST request to delete the document
+                $.ajax({
+                    url: '/cart/delete/', // The URL to send the request to
+                    type: 'POST',
+                    data: {
+                        'document_id': documentId,
+                        'csrfmiddlewaretoken': '{{ csrf_token }}' // Include CSRF token for security
+                    },
+                    success: function (response) {
+                        if (response.ok) {
+                            // Remove the corresponding row from the table
+                            $('#row-document-' + documentId).remove();
+                        } else {
+                            alert(response.error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('مشکلی در حذف پیش آمده است لطفا صفحه را رفرش کرده و مجددا تلاش کنید');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
