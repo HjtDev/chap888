@@ -128,3 +128,5 @@ dmypy.json
 main/static/
 
 static/
+
+media/
