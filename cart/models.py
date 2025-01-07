@@ -6,6 +6,7 @@ import os
 from io import BytesIO
 from django.core.files.base import ContentFile
 from django.db import transaction
+from PyPDF2 import PdfReader
 
 
 def document_path(instance, filename):
@@ -18,7 +19,7 @@ class Documents(models.Model):
                                   editable=False, null=True, blank=True)
 
     def __str__(self):
-        return self.pdf.name
+        return self.pdf.name.split('/')[-1]
 
     def create_thumbnail(self):
         print('create_thumbnail called for:', self.pdf.name)
@@ -34,3 +35,12 @@ class Documents(models.Model):
                     self.thumbnail.save(thumbnail_file.name, thumbnail_file)
         except Exception as e:
             print(f"Error creating thumbnail: {e}")
+
+    def get_page_count(self) -> int:
+        try:
+            with open(self.pdf.path, 'rb') as f:
+                reader = PdfReader(f)
+                return len(reader.pages)
+        except Exception as e:
+            print(f"Error reading PDF: {e}")
+            return 0
