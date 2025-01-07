@@ -158,3 +158,16 @@ JAZZMIN_SETTINGS = {
 admin.sites.AdminSite.site_header = 'پنل مدیریت'
 admin.sites.AdminSite.site_title = 'فروشگاه'
 admin.sites.AdminSite.index_title = 'پنل مدیریت'
+
+# Django Resized
+
+DJANGORESIZED_DEFAULT_SIZE = [60, 70]
+# DJANGORESIZED_DEFAULT_SCALE = 0.5
+DJANGORESIZED_DEFAULT_QUALITY = 100
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {
+    'JPEG': ".jpg",
+    'PNG': ".png",
+    'WEBP': ".webp",
+}
