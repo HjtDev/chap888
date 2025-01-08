@@ -47,12 +47,12 @@
                                     </a>
                                 </td>
                                 <td class="document-thumbnail">
-                                    <a href="">
+                                    <a href="{{ item.document.thumbnail.url }}">
                                         <img src="{{ item.document.thumbnail.url }}" alt="{{ item.document }}">
                                     </a>
                                 </td>
                                 <td class="document-name">
-                                    <a href="">{{ item.document }}</a>
+                                    <a href="{{ item.document.pdf.url }}">{{ item.document }}</a>
                                 </td>
                                 <td class="document-pages">
                                     <a href="">{{ item.document.get_page_count }}</a>
@@ -109,30 +109,23 @@
             </form>
             <div class="coupon-cart">
                 <div class="row">
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-4 col-md-4">
                         <a class="default-btn update-cart w-100" id="add-file-button">
                             اضافه کردن فایل
                         </a>
                         <input type="file" id="file-input" accept="application/pdf" style="display: none;">
                     </div>
-                    <div class="col-lg-6 col-md-6">
+                    <div class="col-lg-4 col-md-4">
                         <button class="default-btn update-cart save-cart w-100">
                             ذخیره سبد خرید
                         </button>
                     </div>
+                    <div class="col-lg-4 col-md-4">
+                        <a href="checkout/">
+                            <button class="default-btn update-cart w-100">پرداخت</button>
+                        </a>
+                    </div>
                 </div>
-            </div>
-            <div class="cart-totals">
-                <h3 class="cart-checkout-title">خلاصه پرداخت</h3>
-                <ul>
-                    <li>زیر مجموعه <span>8400 تومان</span></li>
-                    <li>کرایه حمل <span>1300 تومان</span></li>
-                    <li>مجموع <span>6500 تومان</span></li>
-                    <li><b>مبلغ قابل پرداخت</b> <span><b>6500 تومان</b></span></li>
-                </ul>
-                <button class="default-btn" style="cursor:pointer;">
-                    ادامه پرداخت
-                </button>
             </div>
         </div>
     </section>
@@ -141,6 +134,40 @@
 {% block script %}
     <script>
         $(document).ready(function () {
+            var prices = null;
+
+            function fetchPrices() {
+                $.ajax({
+                    url: '/price_list/',
+                    type: 'GET',
+                    success: function (response) {
+                        prices = response;
+                        calculateTotals(prices);
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Error fetching price list:', error);
+                    }
+                });
+            }
+
+            function calculateTotals(prices) {
+                $('.cart-item').each(function () {
+                    var documentId = $(this).attr('id').split('-')[2];
+                    var size = $(this).find(`#document-size-${documentId}`).val();
+                    var color = $(this).find(`#document-color-${documentId}`).val();
+                    var extra = $(this).find(`#document-extra-${documentId}`).val();
+                    var quantity = parseInt($(this).find(`#document-quantity-${documentId}`).val(), 10);
+                    var total = (prices[size] + prices[color] + prices[extra]) * quantity;
+                    $(this).find(`#document-price-${documentId}`).text(total + ' تومان');
+                });
+            }
+
+            fetchPrices();
+
+            $(document).on('change', '.cart-item select, .cart-item input[type=text]', function() {
+                calculateTotals(prices);
+            });
+
             $('#add-file-button').on('click', function (e) {
                 e.preventDefault();
                 $('#file-input').click();
@@ -171,7 +198,7 @@
                                         </a>
                                     </td>
                                     <td class="document-thumbnail">
-                                        <a href="">
+                                        <a href="${response.thumbnail}">
                                             <img src="${response.thumbnail}" alt="Document ${response.id}">
                                         </a>
                                     </td>
@@ -218,6 +245,16 @@
                                     </td>
                                 </tr>`;
                                 $('.cart-table tbody').append(newRow);
+                                calculateTotals(prices);
+                                var currentCount = parseInt($('#cart-counter').text(), 10) || 0;
+                                currentCount += 1;
+
+                                if ($('#cart-counter').length === 0) {
+                                    var counterHtml = `<span id="cart-counter">${currentCount}</span>`;
+                                    $('.counter-container').append(counterHtml);
+                                } else {
+                                    $('#cart-counter').text(currentCount);
+                                }
                             } else {
                                 alert(response.error);
                             }
@@ -231,7 +268,7 @@
                 }
             });
 
-            $('.remove').on('click', function (e) {
+            $('.cart-table tbody').on('click', '.remove', function (e) {
                 e.preventDefault();
 
                 var documentId = $(this).data('document');
@@ -246,6 +283,13 @@
                     success: function (response) {
                         if (response.ok) {
                             $('#row-document-' + documentId).remove();
+                            var currentCount = parseInt($('#cart-counter').text(), 10) - 1;
+                            if (currentCount <= 0) {
+                                $('#cart-counter').remove();
+                            } else {
+                                $('#cart-counter').text(currentCount);
+                            }
+                            calculateTotals(prices); // Recalculate totals after removing a row
                         } else {
                             alert(response.error);
                         }
@@ -262,7 +306,7 @@
                 var cartData = {};
 
                 $('.cart-item').each(function () {
-                    var documentId = $(this).attr('id').split('-')[2]; // Extracting ID from row ID
+                    var documentId = $(this).attr('id').split('-')[2];
                     var options = {
                         page_size: $(this).find(`#document-size-${documentId}`).val(),
                         print_color: $(this).find(`#document-color-${documentId}`).val(),
@@ -270,28 +314,27 @@
                         extra_options: $(this).find(`#document-extra-${documentId}`).val(),
                         quantity: $(this).find(`#document-quantity-${documentId}`).val()
                     };
-                    cartData[documentId] = options; // Adding options to cartData with document ID as key
+                    cartData[documentId] = options;
                 });
 
-                // Send AJAX POST request to save cart
                 $.ajax({
-                    url: '/cart/save/', // The URL to send the request to
+                    url: '/cart/save/',
                     type: 'POST',
-                    data: JSON.stringify(cartData), // Convert object to JSON string
-                    contentType: 'application/json', // Set content type to JSON
+                    data: JSON.stringify(cartData),
+                    contentType: 'application/json',
                     headers: {
-                        'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token in header
+                        'X-CSRFToken': '{{ csrf_token }}'
                     },
                     success: function (response) {
                         if (response.ok) {
                             var $button = $('.save-cart');
-                            $button.text('ذخیره شد'); // Change button text
-                            $button.prop('disabled', true); // Disable the button
+                            $button.text('ذخیره شد');
+                            $button.prop('disabled', true);
 
                             setTimeout(function () {
-                                $button.prop('disabled', false); // Re-enable the button
-                                $button.text('ذخیره سبد خرید'); // Restore original text
-                            }, 3000); // 3000 milliseconds = 3 seconds
+                                $button.prop('disabled', false);
+                                $button.text('ذخیره سبد خرید');
+                            }, 3000);
                         } else {
                             alert(response.error);
                         }

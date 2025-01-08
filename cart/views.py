@@ -6,7 +6,7 @@ from json import loads
 
 
 def cart_view(request):
-    return render(request, 'cart.html', {'cart': Cart(request)})
+    return render(request, 'cart.html')
 
 
 def test_view(request):
@@ -39,7 +39,7 @@ def upload_view(request):
             doc = Documents.objects.create(pdf=pdf_file)
             cart = Cart(request)
             cart.add(doc.id, 1, 'A4', 'W&B', 'BOTH_SIDES', 'NO_BINDING')
-            return JsonResponse({'ok': True, 'thumbnail': doc.thumbnail.url, 'filename': str(doc), 'id': doc.id,
+            return JsonResponse({'ok': True, 'thumbnail': doc.thumbnail.url, 'filename': str(doc), 'filepath': doc.pdf.url, 'id': doc.id,
                                  'pages': doc.get_page_count()})
         return JsonResponse({'ok': False, 'error': 'فایل آپلود نشد لطفا اینترنت خود را برسی کرده و مجددا تلاش کنید'})
     return JsonResponse({'ok': False, 'error': 'مشکلی در آپلود فایل به وجود امد لطفا مجددا تلاش کنید.'})
