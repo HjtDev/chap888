@@ -49,9 +49,11 @@
                             </a>
                         </div>
                         <div class="cart-icon">
-                            <a href="{% url 'account:logout' %}">
+                            <a href="{% url 'cart:cart' %}" class="counter-container">
                                 <i class="ri-shopping-cart-line"></i>
-                                <span>03</span>
+                                {% if cart|length %}
+                                    <span id="cart-counter">{{ cart | length }}</span>
+                                {% endif %}
                             </a>
                         </div>
                     </div>

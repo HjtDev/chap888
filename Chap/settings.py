@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
-    'account.apps.AccountConfig'
+    'account.apps.AccountConfig',
+    'cart.apps.CartConfig'
 ]
 
 MIDDLEWARE = [
@@ -65,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cart.context_processor.cart'
             ],
         },
     },
@@ -157,3 +159,21 @@ JAZZMIN_SETTINGS = {
 admin.sites.AdminSite.site_header = 'پنل مدیریت'
 admin.sites.AdminSite.site_title = 'فروشگاه'
 admin.sites.AdminSite.index_title = 'پنل مدیریت'
+
+# Django Resized
+
+DJANGORESIZED_DEFAULT_SIZE = [60, 70]
+# DJANGORESIZED_DEFAULT_SCALE = 0.5
+DJANGORESIZED_DEFAULT_QUALITY = 100
+DJANGORESIZED_DEFAULT_KEEP_META = True
+DJANGORESIZED_DEFAULT_FORCE_FORMAT = 'JPEG'
+DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {
+    'JPEG': ".jpg",
+    'PNG': ".png",
+    'WEBP': ".webp",
+}
+
+# Session Settings
+
+SESSION_COOKIE_AGE = 604800  # 1 Week
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
