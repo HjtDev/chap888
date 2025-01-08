@@ -171,3 +171,8 @@ DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {
     'PNG': ".png",
     'WEBP': ".webp",
 }
+
+# Session Settings
+
+SESSION_COOKIE_AGE = 604800  # 1 Week
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
