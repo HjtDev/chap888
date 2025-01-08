@@ -40,7 +40,7 @@
                         </thead>
                         <tbody>
                         {% for item in cart %}
-                            <tr id="row-document-{{ item.document.id }}">
+                            <tr id="row-document-{{ item.document.id }}" class="cart-item">
                                 <td class="trash">
                                     <a href="" data-document="{{ item.document.id }}" class="remove">
                                         <i class="ri-delete-bin-line"></i>
@@ -83,7 +83,7 @@
                                     <select id="document-extra-{{ item.document.id }}" style="width: 110px;">
                                         <option value="NO_BINDING" {% selected item.options 'بدون صحافی' %}>بدون صحافی
                                         </option>
-                                        <option value="W&COVERED_NO_PUNCH" {% selected item.options 'کاور شده بدون پانچ' %}>
+                                        <option value="COVERED_NO_PUNCH" {% selected item.options 'کاور شده بدون پانچ' %}>
                                             کاور شده بدون پانچ
                                         </option>
                                         <option value="COVERED_PUNCHED" {% selected item.options 'کاور شده با پانچ' %}>
@@ -93,14 +93,8 @@
                                 </td>
                                 <td class="document-quantity">
                                     <div class="input-counter">
-                                        <span class="minus-btn">
-                                            <i class="ri-subtract-line"></i>
-                                        </span>
                                         <input type="text" value="{{ item.quantity }}" class="text-center w-50"
                                                id="document-quantity-{{ item.document.id }}">
-                                        <span class="plus-btn">
-                                            <i class="ri-add-line"></i>
-                                        </span>
                                     </div>
                                 </td>
                                 <td class="document-subtotal">
@@ -122,9 +116,9 @@
                         <input type="file" id="file-input" accept="application/pdf" style="display: none;">
                     </div>
                     <div class="col-lg-6 col-md-6">
-                        <a href="" class="default-btn update-cart w-100">
+                        <button class="default-btn update-cart save-cart w-100">
                             ذخیره سبد خرید
-                        </a>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -136,9 +130,9 @@
                     <li>مجموع <span>6500 تومان</span></li>
                     <li><b>مبلغ قابل پرداخت</b> <span><b>6500 تومان</b></span></li>
                 </ul>
-                <a href="" class="default-btn">
+                <button class="default-btn" style="cursor:pointer;">
                     ادامه پرداخت
-                </a>
+                </button>
             </div>
         </div>
     </section>
@@ -170,65 +164,59 @@
                         success: function (response) {
                             if (response.ok) {
                                 var newRow = `
-                                    <tr id="row-document-${response.id}">
-                                        <td class="trash">
-                                            <a href="" data-document="${response.id}" class="remove">
-                                                <i class="ri-delete-bin-line"></i>
-                                            </a>
-                                        </td>
-                                        <td class="document-thumbnail">
-                                            <a href="">
-                                                <img src="${response.thumbnail}" alt="Document ${response.id}">
-                                            </a>
-                                        </td>
-                                        <td class="document-name">
-                                            <a href="">${response.filename}</a>
-                                        </td>
-                                        <td class="document-pages">
-                                            <a href="">${response.pages}</a>
-                                        </td>
-                                        <td class="document-size">
-                                            <select id="document-size-${response.id}">
-                                                <option value="A3">A3</option>
-                                                <option value="A4" selected>A4</option>
-                                                <option value="A5">A5</option>
-                                            </select>
-                                        </td>
-                                        <td class="document-color">
-                                            <select id="document-color-${response.id}">
-                                                <option value="W&B" selected>سیاه سفید</option>
-                                                <option value="C50">رنگی 50 درصد</option>
-                                                <option value="C100">رنگی 100 درصد</option>
-                                            </select>
-                                        </td>
-                                        <td class="document-type">
-                                            <select id="document-type-${response.id}">
-                                                <option value="ONE_SIDE" selected>یک رو</option>
-                                                <option value="BOTH_SIDES">دو رو</option>
-                                            </select>
-                                        </td>
-                                        <td class="document-extra">
-                                            <select id="document-extra-${response.id}" style="width: 110px;">
-                                                <option value="NO_BINDING" selected>بدون صحافی</option>
-                                                <option value="W&COVERED_NO_PUNCH">کاور شده بدون پانچ</option>
-                                                <option value="COVERED_PUNCHED">کاور شده با پانچ</option>
-                                            </select>
-                                        </td>
-                                        <td class="document-quantity">
-                                            <div class="input-counter">
-                                                <span class="minus-btn">
-                                                    <i class="ri-subtract-line"></i>
-                                                </span>
-                                                <input type="text" value="1" class="text-center w-50" id="document-quantity-${response.id}">
-                                                <span class="plus-btn">
-                                                    <i class="ri-add-line"></i>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td class="document-subtotal">
-                                            <span class="subtotal-amount" id="document-price-${response.id}">9900 تومان</span>
-                                        </td>
-                                    </tr>`;
+                                <tr id="row-document-${response.id}" class="cart-item">
+                                    <td class="trash">
+                                        <a href="" data-document="${response.id}" class="remove">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </a>
+                                    </td>
+                                    <td class="document-thumbnail">
+                                        <a href="">
+                                            <img src="${response.thumbnail}" alt="Document ${response.id}">
+                                        </a>
+                                    </td>
+                                    <td class="document-name">
+                                        <a href="">${response.filename}</a>
+                                    </td>
+                                    <td class="document-pages">
+                                        <a href="">${response.pages}</a>
+                                    </td>
+                                    <td class="document-size">
+                                        <select id="document-size-${response.id}">
+                                            <option value="A3">A3</option>
+                                            <option value="A4" selected>A4</option>
+                                            <option value="A5">A5</option>
+                                        </select>
+                                    </td>
+                                    <td class="document-color">
+                                        <select id="document-color-${response.id}">
+                                            <option value="W&B" selected>سیاه سفید</option>
+                                            <option value="C50">رنگی 50 درصد</option>
+                                            <option value="C100">رنگی 100 درصد</option>
+                                        </select>
+                                    </td>
+                                    <td class="document-type">
+                                        <select id="document-type-${response.id}">
+                                            <option value="ONE_SIDE">یک رو</option>
+                                            <option value="BOTH_SIDES" selected>دو رو</option>
+                                        </select>
+                                    </td>
+                                    <td class="document-extra">
+                                        <select id="document-extra-${response.id}" style="width: 110px;">
+                                            <option value="NO_BINDING" selected>بدون صحافی</option>
+                                            <option value="COVERED_NO_PUNCH">کاور شده بدون پانچ</option>
+                                            <option value="COVERED_PUNCHED">کاور شده با پانچ</option>
+                                        </select>
+                                    </td>
+                                    <td class="document-quantity">
+                                        <div class="input-counter">
+                                            <input type="text" value="1" class="text-center w-50" id="document-quantity-${response.id}">
+                                        </div>
+                                    </td>
+                                    <td class="document-subtotal">
+                                        <span class="subtotal-amount" id="document-price-${response.id}">9900 تومان</span>
+                                    </td>
+                                </tr>`;
                                 $('.cart-table tbody').append(newRow);
                             } else {
                                 alert(response.error);
@@ -267,6 +255,53 @@
                     }
                 });
             });
+
+            $('.save-cart').on('click', function (e) {
+                e.preventDefault();
+
+                var cartData = {};
+
+                $('.cart-item').each(function () {
+                    var documentId = $(this).attr('id').split('-')[2]; // Extracting ID from row ID
+                    var options = {
+                        page_size: $(this).find(`#document-size-${documentId}`).val(),
+                        print_color: $(this).find(`#document-color-${documentId}`).val(),
+                        print_type: $(this).find(`#document-type-${documentId}`).val(),
+                        extra_options: $(this).find(`#document-extra-${documentId}`).val(),
+                        quantity: $(this).find(`#document-quantity-${documentId}`).val()
+                    };
+                    cartData[documentId] = options; // Adding options to cartData with document ID as key
+                });
+
+                // Send AJAX POST request to save cart
+                $.ajax({
+                    url: '/cart/save/', // The URL to send the request to
+                    type: 'POST',
+                    data: JSON.stringify(cartData), // Convert object to JSON string
+                    contentType: 'application/json', // Set content type to JSON
+                    headers: {
+                        'X-CSRFToken': '{{ csrf_token }}' // Include CSRF token in header
+                    },
+                    success: function (response) {
+                        if (response.ok) {
+                            var $button = $('.save-cart');
+                            $button.text('ذخیره شد'); // Change button text
+                            $button.prop('disabled', true); // Disable the button
+
+                            setTimeout(function () {
+                                $button.prop('disabled', false); // Re-enable the button
+                                $button.text('ذخیره سبد خرید'); // Restore original text
+                            }, 3000); // 3000 milliseconds = 3 seconds
+                        } else {
+                            alert(response.error);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        alert('مشکلی در ذخیره سبد خرید پیش آمده است.');
+                    }
+                });
+            });
         });
     </script>
+
 {% endblock %}
