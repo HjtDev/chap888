@@ -129,4 +129,6 @@ main/static/
 
 static/
 
+!cart/static/
+
 media/
