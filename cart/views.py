@@ -9,15 +9,6 @@ def cart_view(request):
     return render(request, 'cart.html')
 
 
-def test_view(request):
-    cart = Cart(request)
-    cart.add(Documents.objects.first().id, 1, 'A4', 'W&B', 'ONE_SIDE', 'NO_BINDING')
-    cart.add(Documents.objects.last().id, 2, 'A3', 'C50', 'BOTH_SIDES', 'COVERED_PUNCHED')
-    items = [item for item in cart]
-
-    return JsonResponse({'ok': True})
-
-
 def delete_view(request):
     if request.method == 'POST':
         try:
@@ -39,14 +30,15 @@ def upload_view(request):
             doc = Documents.objects.create(pdf=pdf_file)
             cart = Cart(request)
             cart.add(doc.id, 1, 'A4', 'W&B', 'BOTH_SIDES', 'NO_BINDING')
-            return JsonResponse({'ok': True, 'thumbnail': doc.thumbnail.url, 'filename': str(doc), 'filepath': doc.pdf.url, 'id': doc.id,
-                                 'pages': doc.get_page_count()})
+            return JsonResponse(
+                {'ok': True, 'thumbnail': doc.thumbnail.url, 'filename': str(doc), 'filepath': doc.pdf.url,
+                 'id': doc.id,
+                 'pages': doc.get_page_count()})
         return JsonResponse({'ok': False, 'error': 'فایل آپلود نشد لطفا اینترنت خود را برسی کرده و مجددا تلاش کنید'})
     return JsonResponse({'ok': False, 'error': 'مشکلی در آپلود فایل به وجود امد لطفا مجددا تلاش کنید.'})
 
 
 def save_view(request):
-    print('called')
     if request.method == 'POST':
         data = loads(request.body)
         cart = Cart(request)
