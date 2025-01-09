@@ -1,0 +1,186 @@
+{% extends 'parent/base.html' %}
+
+{% block title %}
+    ثبت سفارش
+{% endblock %}
+
+{% block content %}
+    <div class="page-title-area bg-16 mt-100">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>بررسی محصول</h2>
+                <ul>
+                    <li>
+                        <a href="{% url 'main:index' %}">
+                            خانه
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{% url 'cart:cart' %}">
+                            سبد خرید
+                        </a>
+                    </li>
+                    <li class="active">ثبت سفارش</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <section class="checkout-area ptb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="log-in-coupon-code mr-15">
+                        <div class="faq-accordion">
+                            <ul class="accordion">
+                                <li class="accordion-item">
+                                    <a class="accordion-title" href="javascript:void(0)">
+                                        کد تخفیف دارید؟ برای وارد کردن کد خود اینجا کلیک کنید
+                                    </a>
+                                    <div class="contact-form-action accordion-content">
+                                        <form method="post">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="form-group">
+                                                        <input class="form-control" type="text" name="Coupon"
+                                                               placeholder="کد تخفیف">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <form>
+                        <div class="billing-details mr-15">
+                            <h3 class="title">جزئیات صورتحساب</h3>
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>نام <span class="required">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>نام خانوادگی <span class="required">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>ایمیل <span class="required">*</span></label>
+                                        <input type="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="form-group">
+                                        <label>تلفن <span class="required">*</span></label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="shipment">ارسال پستی</label>
+                                        <input type="checkbox" class="form-check-input" id="shipment">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-6">
+                                    <div class="form-group">
+                                        <label>استان </label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label>شهرستان </label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label>کد پستی </label>
+                                        <input type="text" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="ship-special-address">ارسال برای نجف آباد (تخفیف ویژه)</label>
+                                        <input type="checkbox" class="form-check-input" id="ship-special-address">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="form-group">
+                                        <label>یادداشت های سفارش (اختیاری)</label>
+                                        <textarea name="notes" id="notes" cols="30" rows="8"
+                                                  class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-4 col-md-12">
+                    <div class="order-details ml-15">
+                        <div class="cart-totals">
+                            <h3>خلاصه پرداخت</h3>
+                            <ul>
+                                <li>زیر مجموعه <span>8400 تومان</span></li>
+                                <li>کرایه حمل <span>1300 تومان</span></li>
+                                <li>تخفیف <span>1100 تومان</span></li>
+                                <li>مجموع <span>5700 تومان</span></li>
+                                <li><b>مبلغ قابل پرداخت</b> <span><b>5700 تومان</b></span></li>
+                            </ul>
+                        </div>
+                        <div class="faq-accordion">
+                            <h3>روش پرداخت</h3>
+                            <ul class="accordion">
+                                <li class="accordion-item active">
+                                    <a class="accordion-title" href="javascript:void(0)">
+                                        پرداخت آنلاین زرین پال
+                                    </a>
+                                    <p class="accordion-content show">
+                                        پرداخت خود را مستقیما از طریق درگاه پرداخت آنلاین زرین پال انجام دهید.
+                                    </p>
+                                </li>
+                                <li class="accordion-item">
+                                    <a class="accordion-title" href="javascript:void(0)">
+                                        پرداخت در محل
+                                    </a>
+                                    <p class="accordion-content">
+                                        لطفا رسید خرید خود را به نام فروشگاه، خیابان، شهرک، شهرستان و کدپستی فروشگاه
+                                        ارسال
+                                        کنید.
+                                    </p>
+                                </li>
+                                <li class="accordion-item">
+                                    <a class="accordion-title" href="javascript:void(0)">
+                                        ارسال فیش
+                                    </a>
+                                    <p class="accordion-content">
+                                        لطفا پس از ثبت سفارش و پس از دریافت پیامک کد رهگیری با شماره 09xx-xxx-xxxx تماس بگیرید.
+                                    </p>
+                                </li>
+                                <li class="accordion-item">
+                                    <div class="form-check">
+                                        <input type="checkbox" class="form-check-input" id="ship-differents-address">
+                                        <label class="form-check-label" for="ship-different-address">موافق هستم با <a
+                                                href="terms-conditions.html">شرایط و ضوابط</a>*</label>
+                                    </div>
+                                </li>
+                                <li class="place-order">
+                                    <a href="checkout.html" class="default-btn two">
+                                        ادامه و پرداخت
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
