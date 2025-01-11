@@ -7,6 +7,7 @@ class OrderItemInline(admin.StackedInline):
     extra = 0
     verbose_name = 'آیتم'
     verbose_name_plural = 'آیتم ها'
+    readonly_fields = ('document',)
 
 
 @admin.register(Order)
@@ -22,7 +23,6 @@ class OrderAdmin(admin.ModelAdmin):
     )
     list_filter = ('user', 'status', 'created_at', 'updated_at')
     search_fields = (
-        'user',
         'first_name',
         'last_name',
         'phone',

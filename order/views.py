@@ -38,7 +38,7 @@ def submit_view(request):
             cart = Cart(request, converted=False)
             for item in cart:
                 options = item['options']
-                OrderItem.objects.create(order=order, quantity=int(item['quantity']), size=options['page_size'],
+                OrderItem.objects.create(order=order, document=item['document'], quantity=int(item['quantity']), size=options['page_size'],
                                          color=options['print_color'], print_type=options['print_type'],
                                          extra=options['extra_options'])
             cart.clear()

@@ -2,6 +2,7 @@ from django.db import models
 from account.models import User
 from django.utils.translation import gettext_lazy as _
 from django.core.cache import cache
+from cart.models import Documents
 
 
 class Order(models.Model):
@@ -53,6 +54,7 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='items', verbose_name='سفارش')
+    document = models.ForeignKey(Documents, on_delete=models.CASCADE, related_name='order_items', verbose_name='فایل')
     price = models.PositiveIntegerField(default=0, verbose_name='قیمت')
     quantity = models.PositiveIntegerField(default=1, verbose_name='سری')
 
