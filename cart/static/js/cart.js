@@ -21,9 +21,12 @@ $(document).ready(function () {
             var documentId = $(this).attr('id').split('-')[2];
             var size = $(this).find(`#document-size-${documentId}`).val();
             var color = $(this).find(`#document-color-${documentId}`).val();
+            var type = $(this).find(`#document-type-${documentId}`).val();
             var extra = $(this).find(`#document-extra-${documentId}`).val();
             var quantity = parseInt($(this).find(`#document-quantity-${documentId}`).val(), 10);
-            var total = (prices[size] + prices[color] + prices[extra]) * quantity;
+            var total = (prices[size] + prices[color] + prices[type] + prices[extra]) * quantity;
+            console.log(type);
+            console.log(prices);
             $(this).find(`#document-price-${documentId}`).text(total + ' تومان');
         });
     }
