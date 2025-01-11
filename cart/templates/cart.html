@@ -1,6 +1,7 @@
 {% extends 'parent/base.html' %}
 {% load static %}
 {% load cart_tags %}
+{% load alert_tags %}
 
 {% block title %}
 	سبد خرید
@@ -23,6 +24,7 @@
         </div>
     </div>
 
+    {% render_messages %}
 
     <section class="cart-area ptb-100">
         <div class="container">

@@ -22,7 +22,6 @@ class Documents(models.Model):
         return self.pdf.name.split('/')[-1]
 
     def create_thumbnail(self):
-        print('create_thumbnail called for:', self.pdf.name)
         try:
             images = convert_from_path(self.pdf.path, first_page=1, last_page=1)
             if images:
