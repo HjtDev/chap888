@@ -4,6 +4,8 @@ from django.core.cache import cache
 from datetime import datetime, timedelta
 from random import randint
 from django.contrib import messages
+from random import choice, shuffle
+from string import ascii_letters, digits, punctuation
 
 
 def index(request):
@@ -42,3 +44,7 @@ def price_list(request):
         'NO_BINDING': cache.get('NO_BINDING')
     })
 
+def generate_password() -> str:
+    password = [choice(ascii_letters) + choice(digits) + choice(punctuation) for _ in range(5)]
+    shuffle(password)
+    return ''.join(password)

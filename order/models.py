@@ -9,11 +9,11 @@ class Order(models.Model):
                              verbose_name='کاربر')
     first_name = models.CharField(max_length=255, verbose_name='نام')
     last_name = models.CharField(max_length=255, verbose_name='نام خانوادگی')
-    email = models.EmailField(max_length=255, verbose_name='ایمیل')
+    email = models.EmailField(max_length=255, verbose_name='ایمیل', blank=True, null=True)
     phone = models.CharField(max_length=11, verbose_name='شماره تلفن')
     province = models.CharField(max_length=255, verbose_name='استان', blank=True, null=True)
     city = models.CharField(max_length=255, verbose_name='شهرستان', blank=True, null=True)
-    address = models.CharField(max_length=300, verbose_name='آدرس')
+    address = models.CharField(max_length=300, verbose_name='آدرس', blank=True, null=True)
     postal_code = models.CharField(max_length=10, verbose_name='کد پستی', blank=True, null=True)
     notes = models.TextField(max_length=500, verbose_name='یادداشت های سفارش', blank=True, null=True)
 
@@ -82,6 +82,10 @@ class OrderItem(models.Model):
 
     def get_item_cost(self):
         return (cache.get(self.size) + cache.get(self.color) + cache.get(self.extra)) * self.quantity
+
+    def save(self, *args, **kwargs):
+        self.price = self.get_item_cost()
+        return super().save(*args, **kwargs)
 
     get_item_cost.short_description = 'قیمت'
 
