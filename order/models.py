@@ -81,7 +81,7 @@ class OrderItem(models.Model):
     extra = models.CharField(max_length=21, choices=ExtraChoices.choices, verbose_name='نوع صحافی')
 
     def get_item_cost(self):
-        return (cache.get(self.size) + cache.get(self.color) + cache.get(self.extra)) * self.quantity
+        return (cache.get(self.size) + cache.get(self.color) + cache.get(self.print_type) + cache.get(self.extra)) * self.quantity
 
     def save(self, *args, **kwargs):
         self.price = self.get_item_cost()

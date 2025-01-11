@@ -18,7 +18,7 @@ def checkout_view(request):
         items.append((str(item['document']), item['quantity']))
         options = item['options']
         total += (cache.get(options['page_size']) + cache.get(options['print_color']) + cache.get(
-            options['extra_options'])) * int(item['quantity'])
+            options['print_type']) + cache.get(options['extra_options'])) * int(item['quantity'])
     if not items:
         messages.error(request, 'سبد خرید شما خالی است')
         return redirect('cart:cart')
@@ -83,5 +83,3 @@ def complete_order_view(request):
         return HttpResponse(f'Payment: {total} Toman')
     except Order.DoesNotExist:
         pass
-
-
