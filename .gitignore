@@ -131,4 +131,6 @@ static/
 
 !cart/static/
 
+!order/static/
+
 media/

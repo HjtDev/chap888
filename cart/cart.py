@@ -38,7 +38,7 @@ class Cart:
         def convert(options):
             return {key: Cart.Options.FRONTEND[value] for key, value in options.items() if key != 'quantity'}
 
-    def __init__(self, request: WSGIRequest):
+    def __init__(self, request: WSGIRequest, converted=True):
         self.session = request.session
         cart = self.session.get('cart', None)
 
@@ -46,6 +46,8 @@ class Cart:
             cart = self.session['cart'] = {}
 
         self.cart = cart
+
+        self.converted = converted
 
     def save(self):
         self.session.modified = True
@@ -92,7 +94,7 @@ class Cart:
                 yield {
                     'document': document,
                     'quantity': options['quantity'],
-                    'options': self.Options.convert(options),
+                    'options': self.Options.convert(options) if self.converted else options,
                 }
             else:
                 print(f'Product with ID {product_id} does not exist')

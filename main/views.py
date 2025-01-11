@@ -4,6 +4,8 @@ from django.core.cache import cache
 from datetime import datetime, timedelta
 from random import randint
 from django.contrib import messages
+from random import choice, shuffle
+from string import ascii_letters, digits, punctuation
 
 
 def index(request):
@@ -31,14 +33,18 @@ def sms_authentication(request, phone, user, previous_page='main:index', json_re
 
 def price_list(request):
     return JsonResponse({
-        'A3': 3000,
-        'A4': 2000,
-        'A5': 1000,
-        'W&B': 500,
-        'C50': 5000,
-        'C100': 9000,
-        'COVERED_NO_PUNCH': 2200,
-        'COVERED_PUNCHED': 3000,
-        'NO_BINDING': 0
+        'A3': cache.get('A3'),
+        'A4': cache.get('A4'),
+        'A5': cache.get('A5'),
+        'W&B': cache.get('W&B'),
+        'C50': cache.get('C50'),
+        'C100': cache.get('C100'),
+        'COVERED_NO_PUNCH': cache.get('COVERED_NO_PUNCH'),
+        'COVERED_PUNCHED': cache.get('COVERED_PUNCHED'),
+        'NO_BINDING': cache.get('NO_BINDING')
     })
 
+def generate_password() -> str:
+    password = [choice(ascii_letters) + choice(digits) + choice(punctuation) for _ in range(5)]
+    shuffle(password)
+    return ''.join(password)
