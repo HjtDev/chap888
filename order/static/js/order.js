@@ -1,4 +1,7 @@
 $(document).ready(function () {
+
+    var csrf_token = $("input[name='csrfmiddlewaretoken']").val()
+
     function updateFinalPrice() {
         // Get values from the elements and remove " تومان"
         var totalPrice = parseInt($('#total-price').text().replace(' تومان', ''), 10);
@@ -24,10 +27,43 @@ $(document).ready(function () {
         // Show/hide shipping fields
         if ($(this).is(':checked')) {
             $('.shipping-field').show();  // Show shipping fields when checked
+
+            // Add required attributes to the relevant inputs
+            $('#province').attr('required', 'required');
+            $('#city').attr('required', 'required');
+            $('#address').attr('required', 'required');
+            $('#postal_code').attr('required', 'required');
         } else {
             $('.shipping-field').hide();  // Hide shipping fields when unchecked
+
+            // Remove required attributes from the relevant inputs
+            $('#province').removeAttr('required');
+            $('#city').removeAttr('required');
+            $('#address').removeAttr('required');
+            $('#postal_code').removeAttr('required');
+
+            // Reset values of the input fields
+            $('#province').val('');
+            $('#city').val('');
+            $('#address').val('');
+            $('#postal_code').val('');
+
+            // Uncheck the special address checkbox
+            $('#ship-special-address').prop('checked', false);
         }
+
         updateFinalPrice(); // Recalculate final price when checkbox state changes
+    });
+
+
+    $('#ship-special-address').change(function () {
+        if ($(this).is(':checked')) {
+            $('#post-price').text('0 تومان');
+        } else {
+            $('#post-price').text('25000 تومان'); // Adjust this to your original price if needed
+        }
+
+        updateFinalPrice();
     });
 
     $('#conditions').change(function () {
@@ -40,6 +76,6 @@ $(document).ready(function () {
 
     $('#pay-button').click(function (e) {
         e.preventDefault();
-        alert('pressed');
-    })
+        $('#form-submit').click();
+    });
 });
