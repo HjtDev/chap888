@@ -1,8 +1,10 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from account.models import User
 from django.utils.translation import gettext_lazy as _
 from django.core.cache import cache
 from cart.models import Documents
+from django.utils import timezone
 
 
 class Order(models.Model):
@@ -83,13 +85,15 @@ class OrderItem(models.Model):
     extra = models.CharField(max_length=21, choices=ExtraChoices.choices, verbose_name='نوع صحافی')
 
     def get_item_cost(self):
-        return (cache.get(self.size) + cache.get(self.color) + cache.get(self.print_type) + cache.get(self.extra)) * self.quantity
+        return (cache.get(self.size) + cache.get(self.color) + cache.get(self.print_type) + cache.get(
+            self.extra)) * self.quantity
 
     def save(self, *args, **kwargs):
         self.price = self.get_item_cost()
         return super().save(*args, **kwargs)
 
     get_item_cost.short_description = 'قیمت'
+
 
 class Transaction(models.Model):
     class ReasonChoice(models.TextChoices):
@@ -115,3 +119,40 @@ class Transaction(models.Model):
 
     def __str__(self):
         return f'تراکنش شماره {self.id}'
+
+
+def discount_value_validator(value: str):
+    print((0 < int(value.replace('%', '')) <= 100))
+    if '%' in value:
+        if not (0 < int(value.replace('%', '')) <= 100):
+            raise ValidationError('مقدار تخفیف به درصد باید حداقل 1 و حداکثر 100 باشد.')
+    else:
+        if not value.isdigit() or not (0 < int(value) <= 1_000_000):
+            raise ValidationError('مقدار تخفیف به تومان باید فقط یک عدد بین 1 تا 1،000،000 باشد.')
+
+
+class Discount(models.Model):
+    token = models.CharField(max_length=20, unique=True, verbose_name='کد تخفیف')
+    value = models.CharField(max_length=7, verbose_name='مقدار تخفیف', help_text='تخفیف به تومان یا درصد',
+                             validators=[discount_value_validator])
+    expire_at = models.DateTimeField(verbose_name='تاریخ انقضا')
+
+    used_by = models.ManyToManyField(User, related_name='used_discounts', verbose_name='کاربر')
+
+    def __str__(self):
+        return f'{self.id} -- {self.token} -- {self.value}'
+
+    def validate(self, phone):
+        return not (timezone.now() > self.expire_at or self.used_by.filter(phone=phone).exists())
+
+    class Meta:
+        verbose_name = 'تخفیف'
+        verbose_name_plural = 'تخفیف ها'
+        ordering = ['-expire_at']
+        indexes = [
+            models.Index(fields=['-expire_at']),
+        ]
+
+
+
+

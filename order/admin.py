@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Order, OrderItem, Transaction
+from .models import Order, OrderItem, Transaction, Discount
 
 
 class OrderItemInline(admin.StackedInline):
@@ -55,3 +55,11 @@ class TransactionAdmin(admin.ModelAdmin):
     )
     search_fields = ('id',)
     ordering = ('created_at',)
+
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    list_display = ('token', 'value', 'expire_at')
+    list_filter = ('expire_at',)
+    search_fields = ('token', 'value')
+    readonly_fields = ('used_by',)
