@@ -78,4 +78,51 @@ $(document).ready(function () {
         e.preventDefault();
         $('#form-submit').click();
     });
+
+    $('#submit-discount').click(function (e) {
+        e.preventDefault();
+
+        // Retrieve values from inputs
+        var phone = $('#phone').val().trim();
+        var token = $('#discount-token').val().trim();
+        var totalPrice = parseInt($('#total-price').text().replace(' تومان', ''), 10);
+
+        // Validate phone number
+        if (!phone || phone.length !== 11 || !phone.startsWith('09')) {
+            $('#discount-result').text('لطفا شماره تلفن معتبر وارد کنید.').show();
+            return; // Stop further execution
+        }
+
+        // Prepare data for AJAX request
+        var data = {
+            'phone': phone,
+            'token': token,
+            'price': totalPrice
+        };
+
+        // Send AJAX request
+        $.ajax({
+            url: '/checkout/check_discount/',  // Replace with your URL pattern
+            type: 'POST',
+            data: data,
+            headers: {
+                'X-CSRFToken': csrf_token
+            },
+            success: function (response) {
+                if (response.ok) {
+                    // Update discount result and total discount value
+                    $('#discount').text(response.discount + ' تومان');
+                    $('#discount-result').text('تخفیف اعمال شد!').show();
+                    $('#form-token').val(token);
+                    updateFinalPrice();
+                } else {
+                    // Show error message from response
+                    $('#discount-result').text(response.error).show();
+                }
+            },
+            error: function () {
+                $('#discount-result').text('خطا در ارسال درخواست. لطفا دوباره تلاش کنید.').show();
+            }
+        });
+    });
 });
