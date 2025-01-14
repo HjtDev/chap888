@@ -40,8 +40,9 @@ class Order(models.Model):
     def __str__(self):
         return f'Order-{self.order_id}: {self.first_name} {self.last_name}'
 
-    def get_total_price(self, post_price, discount):
-        return max(0, sum(item.get_item_cost() for item in self.items.all()) + post_price - discount)
+    def get_total_price(self, post_price, discount: 'Discount' = None):
+        price = sum(item.get_item_cost() for item in self.items.all())
+        return (price + post_price - discount.calculate(price)) if discount else price + post_price
 
     get_total_price.short_description = 'هزینه نهایی'
 
@@ -144,6 +145,13 @@ class Discount(models.Model):
 
     def validate(self, phone):
         return not (timezone.now() > self.expire_at or self.used_by.filter(phone=phone).exists())
+
+    def calculate(self, price):
+        if '%' in self.value:
+            total = int(price * (1 - float(self.value.replace('%', '')) / 100))
+        else:
+            total = max(0, price - int(self.value))
+        return price - total
 
     class Meta:
         verbose_name = 'تخفیف'

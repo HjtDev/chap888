@@ -1,11 +1,11 @@
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core.cache import cache
 from cart.cart import Cart
 from .forms import OrderForm
 from uuid import uuid4
-from .models import OrderItem, Order
+from .models import OrderItem, Order, Discount
 from account.models import User
 from main.views import sms_authentication, generate_password
 
@@ -48,6 +48,9 @@ def submit_view(request):
                 specials.append('post_wanted')
             if 'ship-special-address' in request.POST:
                 specials.append('free_post')
+            token = request.POST.get('discount_token')
+            if token:
+                specials.append(f'discount:{token}')
             cache.set(f'order_specials:{order.pk}', specials)
             if auth_required:
                 try:
@@ -79,7 +82,37 @@ def complete_order_view(request):
         specials = cache.get(f'order_specials:{order_pk}')
         cache.delete(f'order_specials:{order_pk}')
         post_price = 25000 if 'post_wanted' in specials and 'free_post' not in specials else 0
-        total = order.get_total_price(post_price, 1100)
+        discount_token = [special.split(':')[-1] for special in specials if 'discount' in special]
+        total = 0
+        if discount_token:
+            discount = Discount.objects.get(token=discount_token[0])
+            if discount.validate(order.phone):
+                total = order.get_total_price(post_price, discount)
+        else:
+            total = order.get_total_price(post_price)
         return HttpResponse(f'Payment: {total} Toman')
     except Order.DoesNotExist:
-        pass
+        print('Order does not exist')
+    except Discount.DoesNotExist:
+        print('Discount does not exist')
+
+
+def check_discount(request):
+    if request.method == 'POST':
+        try:
+            phone = request.POST.get('phone')
+            discount = Discount.objects.get(token=request.POST.get('token'))
+            price = int(request.POST.get('price'))
+            if phone and len(phone) == 11 and phone.isdigit() and phone.startswith('09'):
+                if discount.validate(phone):
+                    return JsonResponse({'ok': True, 'discount': discount.calculate(price)})
+                else:
+                    return JsonResponse({'ok': False, 'error': 'کد تخفیف منقضی شده است'})
+            else:
+                return JsonResponse({'ok': False, 'error': 'شماره تلفن معتبر نیست.'})
+        except Discount.DoesNotExist:
+            return JsonResponse({'ok': False, 'error': 'کد تخفیف معتبر نیست.'})
+        except ValueError:
+            return JsonResponse({'ok': False, 'error': 'قیمت باید یک عدد باشد.'})
+    else:
+        return JsonResponse({'ok': False, 'error': 'Invalid Method'})
