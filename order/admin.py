@@ -53,7 +53,7 @@ class TransactionAdmin(admin.ModelAdmin):
         'reason',
         'status'
     )
-    search_fields = ('id',)
+    search_fields = ('id', 'description')
     ordering = ('created_at',)
 
 
