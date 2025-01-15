@@ -53,7 +53,7 @@ class Cart:
         self.session.modified = True
 
     def clear(self):
-        del self.cart
+        self.session.pop('cart')
         self.save()
 
     def add(self, document_id, quantity: int, page_size: str, print_color: str, print_type: str,

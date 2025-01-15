@@ -79,6 +79,9 @@ def complete_order_view(request):
     try:
         order_pk = request.session['order']
         order = Order.objects.get(pk=order_pk)
+        if not order.user:
+            order.user = request.user
+            order.save()
         specials = cache.get(f'order_specials:{order_pk}')
         cache.delete(f'order_specials:{order_pk}')
         post_price = 25000 if 'post_wanted' in specials and 'free_post' not in specials else 0
@@ -87,6 +90,8 @@ def complete_order_view(request):
         if discount_token:
             discount = Discount.objects.get(token=discount_token[0])
             if discount.validate(order.phone):
+                discount.used_by.add(order.user)
+                discount.save()
                 total = order.get_total_price(post_price, discount)
         else:
             total = order.get_total_price(post_price)
@@ -100,14 +105,14 @@ def complete_order_view(request):
 def check_discount(request):
     if request.method == 'POST':
         try:
-            phone = request.POST.get('phone')
+            phone = request.POST.get('phone') if not request.user.is_authenticated else request.user.phone
             discount = Discount.objects.get(token=request.POST.get('token'))
             price = int(request.POST.get('price'))
             if phone and len(phone) == 11 and phone.isdigit() and phone.startswith('09'):
                 if discount.validate(phone):
                     return JsonResponse({'ok': True, 'discount': discount.calculate(price)})
                 else:
-                    return JsonResponse({'ok': False, 'error': 'کد تخفیف منقضی شده است'})
+                    return JsonResponse({'ok': False, 'error': 'کد تخفیف منقضی شده است.'})
             else:
                 return JsonResponse({'ok': False, 'error': 'شماره تلفن معتبر نیست.'})
         except Discount.DoesNotExist:

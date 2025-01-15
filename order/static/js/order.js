@@ -89,7 +89,7 @@ $(document).ready(function () {
 
         // Validate phone number
         if (!phone || phone.length !== 11 || !phone.startsWith('09')) {
-            $('#discount-result').text('لطفا شماره تلفن معتبر وارد کنید.').show();
+            $('#discount-result').text('لطفا در بخش جزئیات صورتحساب شماره تلفن خود را وارد کنید.').show();
             return; // Stop further execution
         }
 
