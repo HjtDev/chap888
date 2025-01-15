@@ -6,7 +6,7 @@ class Cart:
     class Options:
         SIZES = ('A3', 'A4', 'A5')
         COLORS = ('W&B', 'C50', 'C100')
-        TYPE = ('ONE_SIDE', 'BOTH_SIDES')
+        TYPE = ('ONE_SIDE', 'BOTH_SIDES', 'TWO_PAGES_PER_SIDE')
         EXTRA_OPTIONS = ('COVERED_NO_PUNCH', 'COVERED_PUNCHED', 'NO_BINDING')
         FRONTEND = {
             'A3': 'A3',
@@ -17,6 +17,7 @@ class Cart:
             'C100': 'رنگی 100 درصد',
             'ONE_SIDE': 'یک رو',
             'BOTH_SIDES': 'دو رو',
+            'TWO_PAGES_PER_SIDE': 'هر دو صفحه یک رو',
             'COVERED_NO_PUNCH': 'کاور شده بدون پانچ',
             'COVERED_PUNCHED': 'کاور شده با پانچ',
             'NO_BINDING': 'بدون صحافی'

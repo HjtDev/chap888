@@ -43,6 +43,7 @@ def control_panel_view(request):
             C100 = int(request.POST['C100'])
             ONE_SIDE = int(request.POST['ONE_SIDE'])
             BOTH_SIDES = int(request.POST['BOTH_SIDES'])
+            TWO_PAGES_PER_SIDE = int(request.POST['TWO_PAGES_PER_SIDE'])
             COVERED_NO_PUNCH = int(request.POST['COVERED_NO_PUNCH'])
             COVERED_PUNCHED = int(request.POST['COVERED_PUNCHED'])
             NO_BINDING = int(request.POST['NO_BINDING'])
@@ -55,6 +56,7 @@ def control_panel_view(request):
             cache.set('C100', C100, timeout=None)
             cache.set('ONE_SIDE', ONE_SIDE, timeout=None)
             cache.set('BOTH_SIDES', BOTH_SIDES, timeout=None)
+            cache.set('TWO_PAGES_PER_SIDE', TWO_PAGES_PER_SIDE, timeout=None)
             cache.set('COVERED_NO_PUNCH', COVERED_NO_PUNCH, timeout=None)
             cache.set('COVERED_PUNCHED', COVERED_PUNCHED, timeout=None)
             cache.set('NO_BINDING', NO_BINDING, timeout=None)
@@ -87,6 +89,7 @@ def control_panel_view(request):
             'C100': cache.get('C100'),
             'ONE_SIDE': cache.get('ONE_SIDE'),
             'BOTH_SIDES': cache.get('BOTH_SIDES'),
+            'TWO_PAGES_PER_SIDE': cache.get('TWO_PAGES_PER_SIDE'),
             'COVERED_NO_PUNCH': cache.get('COVERED_NO_PUNCH'),
             'COVERED_PUNCHED': cache.get('COVERED_PUNCHED'),
             'NO_BINDING': cache.get('NO_BINDING')
@@ -103,6 +106,7 @@ def price_list(request):
         'C100': cache.get('C100'),
         'ONE_SIDE': cache.get('ONE_SIDE'),
         'BOTH_SIDES': cache.get('BOTH_SIDES'),
+        'TWO_PAGES_PER_SIDE': cache.get('TWO_PAGES_PER_SIDE'),
         'COVERED_NO_PUNCH': cache.get('COVERED_NO_PUNCH'),
         'COVERED_PUNCHED': cache.get('COVERED_PUNCHED'),
         'NO_BINDING': cache.get('NO_BINDING')

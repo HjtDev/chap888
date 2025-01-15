@@ -60,7 +60,7 @@
                                     </a>
                                 </td>
                                 <td class="document-name">
-                                    <a href="{{ item.document.pdf.url }}">{{ item.document }}</a>
+                                    <a href="{{ item.document.pdf.url }}" style="font-size: 13px">{{ item.document }}</a>
                                 </td>
                                 <td class="document-pages">
                                     <a href="">{{ item.document.get_page_count }}</a>
@@ -73,7 +73,7 @@
                                     </select>
                                 </td>
                                 <td class="document-color">
-                                    <select id="document-color-{{ item.document.id }}">
+                                    <select id="document-color-{{ item.document.id }}" style="width: 110px;">
                                         <option value="W&B" {% selected item.options 'سیاه سفید' %}>سیاه سفید</option>
                                         <option value="C50" {% selected item.options 'رنگی 50 درصد' %}>رنگی 50 درصد
                                         </option>
@@ -85,6 +85,7 @@
                                     <select id="document-type-{{ item.document.id }}">
                                         <option value="ONE_SIDE" {% selected item.options 'یک رو' %}>یک رو</option>
                                         <option value="BOTH_SIDES" {% selected item.options 'دو رو' %}>دو رو</option>
+                                        <option value="TWO_PAGES_PER_SIDE" {% selected item.options 'هر دو صفحه یک رو' %}>دو در یک</option>
                                     </select>
                                 </td>
                                 <td class="document-extra">
