@@ -17,8 +17,15 @@ def checkout_view(request):
     for item in cart:
         items.append((str(item['document']), item['quantity']))
         options = item['options']
+        pages = item['document'].get_page_count()
+        if options['print_type'] != 'ONE_SIDE' and pages % 2 != 0:
+            pages += 1
+        if options['print_type'] == 'BOTH_SIDES':
+            pages = max(1, pages // 2)
+        elif options['print_type'] == 'TWO_PAGES_PER_SIDE':
+            pages = max(1, pages // 4)
         total += (cache.get(options['page_size']) + cache.get(options['print_color']) + cache.get(
-            options['print_type']) + cache.get(options['extra_options'])) * int(item['quantity'])
+            options['print_type']) + cache.get(options['extra_options'])) * pages * int(item['quantity'])
     if not items:
         messages.error(request, 'سبد خرید شما خالی است')
         return redirect('cart:cart')
