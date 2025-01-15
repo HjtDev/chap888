@@ -85,7 +85,7 @@ $(document).ready(function () {
                                         </select>
                                     </td>
                                     <td class="document-color">
-                                        <select id="document-color-${response.id}">
+                                        <select id="document-color-${response.id}" style="width: 110px;">
                                             <option value="W&B" selected>سیاه سفید</option>
                                             <option value="C50">رنگی 50 درصد</option>
                                             <option value="C100">رنگی 100 درصد</option>
@@ -95,6 +95,7 @@ $(document).ready(function () {
                                         <select id="document-type-${response.id}">
                                             <option value="ONE_SIDE">یک رو</option>
                                             <option value="BOTH_SIDES" selected>دو رو</option>
+                                            <option value="TWO_PAGES_PER_SIDE">دو در یک</option>
                                         </select>
                                     </td>
                                     <td class="document-extra">

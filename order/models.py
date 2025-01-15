@@ -21,7 +21,7 @@ class Order(models.Model):
     notes = models.TextField(max_length=500, verbose_name='یادداشت های سفارش', blank=True, null=True)
 
     order_id = models.CharField(verbose_name='کد سفارش', max_length=10, default='')
-    postal_id = models.CharField(verbose_name='کد رهگیری پست', max_length=30, blank=True, null=True)
+    postal_id = models.CharField(verbose_name='کد رهگیری پست', blank=True, null=True)
 
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین تغییر')
@@ -41,7 +41,7 @@ class Order(models.Model):
         return f'Order-{self.order_id}: {self.first_name} {self.last_name}'
 
     def get_total_price(self, post_price, discount: 'Discount' = None):
-        price = sum(item.get_item_cost() for item in self.items.all())
+        price = sum(item.price for item in self.items.all())
         return (price + post_price - discount.calculate(price)) if discount else price + post_price
 
     get_total_price.short_description = 'هزینه نهایی'
@@ -74,6 +74,7 @@ class OrderItem(models.Model):
     class TypeChoices(models.TextChoices):
         ONE_SIDE = ('ONE_SIDE', _('یک رو'))
         BOTH_SIDES = ('BOTH_SIDES', _('دو رو'))
+        TWO_PAGES_PER_SIDE = ('TWO_PAGES_PER_SIDE', _('هر دو صفحه یک رو'))
 
     class ExtraChoices(models.TextChoices):
         NO_BINDING = ('NO_BINDING', _('بدون صحافی'))
