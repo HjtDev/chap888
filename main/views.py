@@ -6,6 +6,7 @@ from random import randint
 from django.contrib import messages
 from random import choice, shuffle
 from string import ascii_letters, digits, punctuation
+from .models import FAQ
 
 
 def index(request):
@@ -111,3 +112,7 @@ def generate_password() -> str:
     password = [choice(ascii_letters) + choice(digits) + choice(punctuation) for _ in range(5)]
     shuffle(password)
     return ''.join(password)
+
+
+def faq_view(request):
+    return render(request, 'faq.html', {'faq': FAQ.objects.filter(is_visible=True)})
