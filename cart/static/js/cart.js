@@ -24,9 +24,20 @@ $(document).ready(function () {
             var type = $(this).find(`#document-type-${documentId}`).val();
             var extra = $(this).find(`#document-extra-${documentId}`).val();
             var quantity = parseInt($(this).find(`#document-quantity-${documentId}`).val(), 10);
-            var total = (prices[size] + prices[color] + prices[type] + prices[extra]) * quantity;
-            console.log(type);
-            console.log(prices);
+            var pages = parseInt($(`#document-pages-${documentId}`).text(), 10);
+
+            if(type !== 'ONE_SIDE' && pages % 2 !== 0) {
+                pages += 1;
+            }
+
+            if(type === 'BOTH_SIDES') {
+                pages = Math.max(1, pages / 2);
+            } else if(type === 'TWO_PAGES_PER_SIDE') {
+                pages = Math.max(1, pages / 4)
+            }
+
+            var total = (prices[size] + prices[color] + prices[type] + prices[extra]) * pages * quantity;
+
             $(this).find(`#document-price-${documentId}`).text(total + ' تومان');
         });
     }
@@ -75,7 +86,7 @@ $(document).ready(function () {
                                         <a href="">${response.filename}</a>
                                     </td>
                                     <td class="document-pages">
-                                        <a href="">${response.pages}</a>
+                                        <a id="document-pages-${response.id}">${response.pages}</a>
                                     </td>
                                     <td class="document-size">
                                         <select id="document-size-${response.id}">
