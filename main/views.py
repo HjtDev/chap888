@@ -120,3 +120,6 @@ def generate_password() -> str:
 
 def faq_view(request):
     return render(request, 'faq.html', {'faq': FAQ.objects.filter(is_visible=True)})
+
+def terms_of_use_view(request):
+    return render(request, 'terms.html')
