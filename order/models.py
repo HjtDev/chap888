@@ -5,9 +5,12 @@ from django.utils.translation import gettext_lazy as _
 from django.core.cache import cache
 from cart.models import Documents
 from django.utils import timezone
+from django_jalali.db import models as jmodels
 
 
 class Order(models.Model):
+    objects = jmodels.jManager()
+
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, related_name='orders',
                              verbose_name='کاربر')
     first_name = models.CharField(max_length=255, verbose_name='نام')
@@ -23,8 +26,8 @@ class Order(models.Model):
     order_id = models.CharField(verbose_name='کد سفارش', max_length=10, default='')
     postal_id = models.CharField(verbose_name='کد رهگیری پست', blank=True, null=True)
 
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
-    updated_at = models.DateTimeField(auto_now=True, verbose_name='آخرین تغییر')
+    created_at = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    updated_at = jmodels.jDateTimeField(auto_now=True, verbose_name='آخرین تغییر')
 
     class OrderStatus(models.TextChoices):
         SUBMITTED = 'ثبت شده', _('ثبت شده')
@@ -107,6 +110,8 @@ class OrderItem(models.Model):
 
 
 class Transaction(models.Model):
+    objects = jmodels.jManager()
+
     class ReasonChoice(models.TextChoices):
         ORDER = 'برای سفارش', _('برای سفارش')
         REFUND = 'بازگشت وجه', _('بازگشت وجه')
@@ -121,7 +126,7 @@ class Transaction(models.Model):
     status = models.CharField(verbose_name='وضعیت تراکنش', choices=TransactionStatusChoice.choices, max_length=21)
     description = models.TextField(verbose_name='توضیحات نراکنش')
     price = models.PositiveIntegerField(verbose_name='هزینه', default=0)
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+    created_at = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
 
     class Meta:
         verbose_name = 'تراکنش'
@@ -143,10 +148,12 @@ def discount_value_validator(value: str):
 
 
 class Discount(models.Model):
+    objects = jmodels.jManager()
+
     token = models.CharField(max_length=20, unique=True, verbose_name='کد تخفیف')
     value = models.CharField(max_length=7, verbose_name='مقدار تخفیف', help_text='تخفیف به تومان یا درصد',
                              validators=[discount_value_validator])
-    expire_at = models.DateTimeField(verbose_name='تاریخ انقضا')
+    expire_at = jmodels.jDateTimeField(verbose_name='تاریخ انقضا')
 
     used_by = models.ManyToManyField(User, related_name='used_discounts', verbose_name='کاربر')
 
