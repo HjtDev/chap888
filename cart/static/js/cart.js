@@ -70,6 +70,7 @@ $(document).ready(function () {
                 processData: false,
                 success: function (response) {
                     if (response.ok) {
+                        var optionDisabled = (response.pages == 1) ? 'disabled':'';
                         var newRow = `
                                 <tr id="row-document-${response.id}" class="cart-item">
                                     <td class="trash">
@@ -104,8 +105,8 @@ $(document).ready(function () {
                                     </td>
                                     <td class="document-type">
                                         <select id="document-type-${response.id}">
-                                            <option value="ONE_SIDE">یک رو</option>
-                                            <option value="BOTH_SIDES" selected>دو رو</option>
+                                            <option value="ONE_SIDE" selected>یک رو</option>
+                                            <option value="BOTH_SIDES"${optionDisabled}>دو رو</option>
                                             <option value="TWO_PAGES_PER_SIDE">دو در یک</option>
                                         </select>
                                     </td>
