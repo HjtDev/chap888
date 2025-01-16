@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_jalali',
     'main.apps.MainConfig',
     'account.apps.AccountConfig',
     'cart.apps.CartConfig',
@@ -179,3 +180,22 @@ DJANGORESIZED_DEFAULT_FORMAT_EXTENSIONS = {
 
 SESSION_COOKIE_AGE = 604800  # 1 Week
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
+# Django Jalali Settings
+
+JALALI_SETTINGS = {
+    "ADMIN_JS_STATIC_FILES": [
+        "admin/jquery.ui.datepicker.jalali/scripts/jquery-1.10.2.min.js",
+        "admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.core.js",
+        "admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc.js",
+        "admin/jquery.ui.datepicker.jalali/scripts/calendar.js",
+        "admin/jquery.ui.datepicker.jalali/scripts/jquery.ui.datepicker-cc-fa.js",
+        "admin/main.js",
+    ],
+    "ADMIN_CSS_STATIC_FILES": {
+        "all": [
+            "admin/jquery.ui.datepicker.jalali/themes/base/jquery-ui.min.css",
+            "admin/css/main.css",
+        ]
+    },
+}
