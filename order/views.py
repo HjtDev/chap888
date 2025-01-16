@@ -128,3 +128,14 @@ def check_discount(request):
             return JsonResponse({'ok': False, 'error': 'قیمت باید یک عدد باشد.'})
     else:
         return JsonResponse({'ok': False, 'error': 'Invalid Method'})
+
+
+def status_view(request):
+    if request.method == 'POST':
+        try:
+            order_id = request.POST.get('order-code')
+            order = Order.objects.get(order_id=order_id)
+            messages.info(request, f'سفارش شما در وضعیت "{order.status}" قرار دارد.')
+        except Order.DoesNotExist:
+            messages.error(request, 'کد سفارش اشتباه است.')
+    return render(request, 'status.html')
