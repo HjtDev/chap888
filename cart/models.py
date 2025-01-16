@@ -43,3 +43,9 @@ class Documents(models.Model):
         except Exception as e:
             print(f"Error reading PDF: {e}")
             return 0
+
+    get_page_count.short_description = 'صفحه'
+
+    class Meta:
+        verbose_name = 'فایل'
+        verbose_name_plural = 'فایل ها'
