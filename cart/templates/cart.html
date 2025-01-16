@@ -48,69 +48,78 @@
                         </thead>
                         <tbody>
                         {% for item in cart %}
-                            <tr id="row-document-{{ item.document.id }}" class="cart-item">
-                                <td class="trash">
-                                    <a href="" data-document="{{ item.document.id }}" class="remove">
-                                        <i class="ri-delete-bin-line"></i>
-                                    </a>
-                                </td>
-                                <td class="document-thumbnail">
-                                    <a href="{{ item.document.thumbnail.url }}">
-                                        <img src="{{ item.document.thumbnail.url }}" alt="{{ item.document }}">
-                                    </a>
-                                </td>
-                                <td class="document-name">
-                                    <a href="{{ item.document.pdf.url }}" style="font-size: 13px">{{ item.document }}</a>
-                                </td>
-                                <td class="document-pages">
-                                    <a id="document-pages-{{ item.document.id }}">{{ item.document.get_page_count }}</a>
-                                </td>
-                                <td class="document-size">
-                                    <select id="document-size-{{ item.document.id }}">
-                                        <option value="A3" {% selected item.options 'A3' %}>A3</option>
-                                        <option value="A4" {% selected item.options 'A4' %}>A4</option>
-                                        <option value="A5" {% selected item.options 'A5' %}>A5</option>
-                                    </select>
-                                </td>
-                                <td class="document-color">
-                                    <select id="document-color-{{ item.document.id }}" style="width: 110px;">
-                                        <option value="W&B" {% selected item.options 'سیاه سفید' %}>سیاه سفید</option>
-                                        <option value="C50" {% selected item.options 'رنگی 50 درصد' %}>رنگی 50 درصد
-                                        </option>
-                                        <option value="C100" {% selected item.options 'رنگی 100 درصد' %}>رنگی 100 درصد
-                                        </option>
-                                    </select>
-                                </td>
-                                <td class="document-type">
-                                    <select id="document-type-{{ item.document.id }}">
-                                        <option value="ONE_SIDE" {% selected item.options 'یک رو' %}>یک رو</option>
-                                        <option value="BOTH_SIDES" {% selected item.options 'دو رو' %}>دو رو</option>
-                                        <option value="TWO_PAGES_PER_SIDE" {% selected item.options 'هر دو صفحه یک رو' %}>دو در یک</option>
-                                    </select>
-                                </td>
-                                <td class="document-extra">
-                                    <select id="document-extra-{{ item.document.id }}" style="width: 110px;">
-                                        <option value="NO_BINDING" {% selected item.options 'بدون صحافی' %}>بدون صحافی
-                                        </option>
-                                        <option value="COVERED_NO_PUNCH" {% selected item.options 'کاور شده بدون پانچ' %}>
-                                            کاور شده بدون پانچ
-                                        </option>
-                                        <option value="COVERED_PUNCHED" {% selected item.options 'کاور شده با پانچ' %}>
-                                            کاور شده با پانچ
-                                        </option>
-                                    </select>
-                                </td>
-                                <td class="document-quantity">
-                                    <div class="input-counter">
-                                        <input type="text" value="{{ item.quantity }}" class="text-center w-50"
-                                               id="document-quantity-{{ item.document.id }}">
-                                    </div>
-                                </td>
-                                <td class="document-subtotal">
-                                    <span class="subtotal-amount"
-                                          id="document-price-{{ item.document.id }}">9900 تومان</span>
-                                </td>
-                            </tr>
+                            {% with item.document.get_page_count as pages %}
+                                <tr id="row-document-{{ item.document.id }}" class="cart-item">
+                                    <td class="trash">
+                                        <a href="" data-document="{{ item.document.id }}" class="remove">
+                                            <i class="ri-delete-bin-line"></i>
+                                        </a>
+                                    </td>
+                                    <td class="document-thumbnail">
+                                        <a href="{{ item.document.thumbnail.url }}">
+                                            <img src="{{ item.document.thumbnail.url }}" alt="{{ item.document }}">
+                                        </a>
+                                    </td>
+                                    <td class="document-name">
+                                        <a href="{{ item.document.pdf.url }}"
+                                           style="font-size: 13px">{{ item.document }}</a>
+                                    </td>
+                                    <td class="document-pages">
+                                        <a id="document-pages-{{ item.document.id }}">{{ pages }}</a>
+                                    </td>
+                                    <td class="document-size">
+                                        <select id="document-size-{{ item.document.id }}">
+                                            <option value="A3" {% selected item.options 'A3' %}>A3</option>
+                                            <option value="A4" {% selected item.options 'A4' %}>A4</option>
+                                            <option value="A5" {% selected item.options 'A5' %}>A5</option>
+                                        </select>
+                                    </td>
+                                    <td class="document-color">
+                                        <select id="document-color-{{ item.document.id }}" style="width: 110px;">
+                                            <option value="W&B" {% selected item.options 'سیاه سفید' %}>سیاه سفید
+                                            </option>
+                                            <option value="C50" {% selected item.options 'رنگی 50 درصد' %}>رنگی 50 درصد
+                                            </option>
+                                            <option value="C100" {% selected item.options 'رنگی 100 درصد' %}>رنگی 100
+                                                درصد
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td class="document-type">
+                                        <select id="document-type-{{ item.document.id }}">
+                                            <option value="ONE_SIDE" {% selected item.options 'یک رو' %}>یک رو</option>
+                                            <option value="BOTH_SIDES" {% selected item.options 'دو رو' %} {% if pages == 1 %}disabled{% endif %}>دو رو
+                                            </option>
+                                            <option value="TWO_PAGES_PER_SIDE" {% selected item.options 'هر دو صفحه یک رو' %}>
+                                                دو در یک
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td class="document-extra">
+                                        <select id="document-extra-{{ item.document.id }}" style="width: 110px;">
+                                            <option value="NO_BINDING" {% selected item.options 'بدون صحافی' %}>بدون
+                                                صحافی
+                                            </option>
+                                            <option value="COVERED_NO_PUNCH" {% selected item.options 'کاور شده بدون پانچ' %}>
+                                                کاور شده بدون پانچ
+                                            </option>
+                                            <option value="COVERED_PUNCHED" {% selected item.options 'کاور شده با پانچ' %}>
+                                                کاور شده با پانچ
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td class="document-quantity">
+                                        <div class="input-counter">
+                                            <input type="text" value="{{ item.quantity }}" class="text-center w-50"
+                                                   id="document-quantity-{{ item.document.id }}">
+                                        </div>
+                                    </td>
+                                    <td class="document-subtotal">
+                                        <span class="subtotal-amount"
+                                              id="document-price-{{ item.document.id }}">9900 تومان</span>
+                                    </td>
+                                </tr>
+                            {% endwith %}
                         {% endfor %}
                         </tbody>
                     </table>
