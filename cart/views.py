@@ -31,7 +31,7 @@ def upload_view(request):
             cart = Cart(request)
             cart.add(doc.id, 1, 'A4', 'W&B', 'ONE_SIDE', 'NO_BINDING')
             return JsonResponse(
-                {'ok': True, 'thumbnail': doc.thumbnail.url, 'filename': str(doc), 'filepath': doc.pdf.url,
+                {'ok': True, 'filename': str(doc), 'filepath': doc.pdf.url,
                  'id': doc.id,
                  'pages': doc.get_page_count()})
         return JsonResponse({'ok': False, 'error': 'فایل آپلود نشد لطفا اینترنت خود را برسی کرده و مجددا تلاش کنید'})

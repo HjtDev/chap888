@@ -15,8 +15,8 @@ def document_path(instance, filename):
 
 class Documents(models.Model):
     pdf = models.FileField(upload_to=document_path, verbose_name='فایل')
-    thumbnail = ResizedImageField(upload_to=document_path, size=[60, 70], quality=100, keep_meta=True,
-                                  editable=False, null=True, blank=True)
+    # thumbnail = ResizedImageField(upload_to=document_path, size=[60, 70], quality=100, keep_meta=True,
+    #                               editable=False, null=True, blank=True)
 
     def __str__(self):
         return self.pdf.name.split('/')[-1]
