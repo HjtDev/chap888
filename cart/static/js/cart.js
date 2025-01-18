@@ -102,7 +102,7 @@ $(document).ready(function () {
                                         <select id="document-type-${response.id}">
                                             <option value="ONE_SIDE" selected>یک رو</option>
                                             <option value="BOTH_SIDES"${optionDisabled}>دو رو</option>
-                                            <option value="TWO_PAGES_PER_SIDE">دو در یک</option>
+                                            <option value="TWO_PAGES_PER_SIDE" ${optionDisabled}>دو در یک</option></option>
                                         </select>
                                     </td>
                                     <td class="document-extra">

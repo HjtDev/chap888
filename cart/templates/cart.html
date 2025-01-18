@@ -90,7 +90,7 @@
                                             <option value="ONE_SIDE" {% selected item.options 'یک رو' %}>یک رو</option>
                                             <option value="BOTH_SIDES" {% selected item.options 'دو رو' %} {% if pages == 1 %}disabled{% endif %}>دو رو
                                             </option>
-                                            <option value="TWO_PAGES_PER_SIDE" {% selected item.options 'هر دو صفحه یک رو' %}>
+                                            <option value="TWO_PAGES_PER_SIDE" {% selected item.options 'هر دو صفحه یک رو' %} {% if pages == 1 %}disabled{% endif %}>
                                                 دو در یک
                                             </option>
                                         </select>
