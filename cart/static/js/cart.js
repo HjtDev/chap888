@@ -78,11 +78,6 @@ $(document).ready(function () {
                                             <i class="ri-delete-bin-line"></i>
                                         </a>
                                     </td>
-                                    <td class="document-thumbnail">
-                                        <a href="${response.thumbnail}">
-                                            <img src="${response.thumbnail}" alt="Document ${response.id}">
-                                        </a>
-                                    </td>
                                     <td class="document-name">
                                         <a href="">${response.filename}</a>
                                     </td>
