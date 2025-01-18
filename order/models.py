@@ -6,6 +6,7 @@ from django.core.cache import cache
 from cart.models import Documents
 from django.utils import timezone
 from django_jalali.db import models as jmodels
+from main.views import load_prices
 
 
 class Order(models.Model):
@@ -90,6 +91,7 @@ class OrderItem(models.Model):
     extra = models.CharField(max_length=21, choices=ExtraChoices.choices, verbose_name='نوع صحافی')
 
     def get_item_cost(self):
+        prices = load_prices()
         pages = self.document.get_page_count()
         if self.print_type != self.TypeChoices.ONE_SIDE and pages % 2 != 0:
             pages += 1
@@ -99,7 +101,7 @@ class OrderItem(models.Model):
         elif self.print_type == self.TypeChoices.TWO_PAGES_PER_SIDE:
             pages = max(1, pages // 4)
 
-        return (cache.get(self.size) + cache.get(self.color) + cache.get(self.print_type) + cache.get(
+        return (prices.get(self.size) + prices.get(self.color) + prices.get(self.print_type) + prices.get(
             self.extra)) * pages * self.quantity
 
     def save(self, *args, **kwargs):

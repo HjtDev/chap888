@@ -8,12 +8,14 @@ from uuid import uuid4
 from .models import OrderItem, Order, Discount
 from account.models import User
 from main.views import sms_authentication, generate_password
+from main.views import load_prices
 
 
 def checkout_view(request):
     cart = Cart(request, converted=False)
     items = []
     total = 0
+    prices = load_prices()
     for item in cart:
         items.append((str(item['document']), item['quantity']))
         options = item['options']
@@ -24,8 +26,8 @@ def checkout_view(request):
             pages = max(1, pages // 2)
         elif options['print_type'] == 'TWO_PAGES_PER_SIDE':
             pages = max(1, pages // 4)
-        total += (cache.get(options['page_size']) + cache.get(options['print_color']) + cache.get(
-            options['print_type']) + cache.get(options['extra_options'])) * pages * int(item['quantity'])
+        total += (prices.get(options['page_size']) + prices.get(options['print_color']) + prices.get(
+            options['print_type']) + prices.get(options['extra_options'])) * pages * int(item['quantity'])
     if not items:
         messages.error(request, 'سبد خرید شما خالی است')
         return redirect('cart:cart')
