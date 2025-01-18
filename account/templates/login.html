@@ -83,7 +83,7 @@
             $('#sms-login').on('click', function () {
                 const phone = $('#phone-input').val();
                 if (phone.length === 11 && /^\d+$/.test(phone)) {
-                    window.location.href = `http://localhost:8000/accounts/login/${phone}/`;
+                    window.location.href = `${window.location.origin}/accounts/login/${phone}/`;
                 } else {
                     alert('شماره تلفن باید 11 رقمی باشد و با 09 آغاز شود.');
                 }
