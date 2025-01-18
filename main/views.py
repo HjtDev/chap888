@@ -70,6 +70,7 @@ def control_panel_view(request):
                 'C100': C100,
                 'ONE_SIDE': ONE_SIDE,
                 'BOTH_SIDES': BOTH_SIDES,
+                'TWO_PAGES_PER_SIDE': TWO_PAGES_PER_SIDE,
                 'COVERED_NO_PUNCH': COVERED_NO_PUNCH,
                 'COVERED_PUNCHED': COVERED_PUNCHED,
                 'NO_BINDING': NO_BINDING
