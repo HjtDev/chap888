@@ -71,7 +71,7 @@ class OrderItem(models.Model):
         A5 = ('A5', 'A5')
 
     class ColorChoices(models.TextChoices):
-        WB = ('W&B', _('سیاه سفید'))
+        WB = ('WB', _('سیاه سفید'))
         C50 = ('C50', _('رنگی 50 درصد'))
         C100 = ('C100', _('رنگی 100 درصد'))
 

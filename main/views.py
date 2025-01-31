@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.core.cache import cache
 from random import choice, shuffle
 from string import ascii_letters, digits, punctuation
-from .models import FAQ
+from .models import FAQ, Comment
 import threading, json, os
 from django.conf import settings
 
@@ -28,7 +28,17 @@ def save_prices(prices):
 
 
 def index(request):
-    return render(request, 'index.html')
+    prices = load_prices()
+    context = {
+        'comments': Comment.objects.filter(is_visible=True),
+        'WB_ONE_SIDE': prices.get('A4') + prices.get('WB') + prices.get('ONE_SIDE') + prices.get('NO_BINDING'),
+        'WB_BOTH_SIDES': prices.get('A4') + prices.get('WB') + prices.get('BOTH_SIDES') + prices.get('NO_BINDING'),
+        'WB_BOOK': prices.get('A4') + prices.get('WB') + prices.get('TWO_PAGES_PER_SIDE') + prices.get('NO_BINDING'),
+        'C100_BOTH_SIDES': prices.get('A4') + prices.get('C100') + prices.get('BOTH_SIDES') + prices.get('NO_BINDING'),
+        'COVERED_NO_PUNCH': prices.get('COVERED_NO_PUNCH'),
+        'COVERED_PUNCHED': prices.get('COVERED_PUNCHED')
+    }
+    return render(request, 'index.html', context)
 
 
 def sms_authentication(request, phone, user, previous_page='main:index', json_response: bool = False):
@@ -51,8 +61,6 @@ def sms_authentication(request, phone, user, previous_page='main:index', json_re
     return response()
 
 def control_panel_view(request):
-    prices = load_prices()
-
     if request.method == 'POST':
         try:
             A3 = int(request.POST['A3'])
@@ -69,7 +77,7 @@ def control_panel_view(request):
             NO_BINDING = int(request.POST['NO_BINDING'])
 
             with lock:
-                prices.update({
+                context = {
                     'A3': A3,
                     'A4': A4,
                     'A5': A5,
@@ -82,9 +90,8 @@ def control_panel_view(request):
                     'COVERED_NO_PUNCH': COVERED_NO_PUNCH,
                     'COVERED_PUNCHED': COVERED_PUNCHED,
                     'NO_BINDING': NO_BINDING
-                })
-                context = prices
-                save_prices(prices)
+                }
+                save_prices(context)
 
             messages.success(request, 'ذخیره شد.')
         except (KeyError, ValueError) as e:
@@ -92,39 +99,12 @@ def control_panel_view(request):
             messages.error(request, f'مشکلی در ذخیره اطلاعات پیش آمد لطفا مقادیر را برسی نموده و مجددا تلاش بفرمایید.')
             return redirect('main:control_panel')
     else:
-        context = {
-            'A3': prices.get('A3'),
-            'A4': prices.get('A4'),
-            'A5': prices.get('A5'),
-            'WB': prices.get('WB'),
-            'C50': prices.get('C50'),
-            'C100': prices.get('C100'),
-            'ONE_SIDE': prices.get('ONE_SIDE'),
-            'BOTH_SIDES': prices.get('BOTH_SIDES'),
-            'TWO_PAGES_PER_SIDE': prices.get('TWO_PAGES_PER_SIDE'),
-            'COVERED_NO_PUNCH': prices.get('COVERED_NO_PUNCH'),
-            'COVERED_PUNCHED': prices.get('COVERED_PUNCHED'),
-            'NO_BINDING': prices.get('NO_BINDING')
-        }
+        context = load_prices()
     return render(request, 'control_panel.html', context)
 
 
 def price_list(request):
-    prices = load_prices()
-    return JsonResponse({
-        'A3': prices.get('A3'),
-        'A4': prices.get('A4'),
-        'A5': prices.get('A5'),
-        'W&B': prices.get('W&B'),
-        'C50': prices.get('C50'),
-        'C100': prices.get('C100'),
-        'ONE_SIDE': prices.get('ONE_SIDE'),
-        'BOTH_SIDES': prices.get('BOTH_SIDES'),
-        'TWO_PAGES_PER_SIDE': prices.get('TWO_PAGES_PER_SIDE'),
-        'COVERED_NO_PUNCH': prices.get('COVERED_NO_PUNCH'),
-        'COVERED_PUNCHED': prices.get('COVERED_PUNCHED'),
-        'NO_BINDING': prices.get('NO_BINDING')
-    })
+    return JsonResponse(load_prices())
 
 def generate_password() -> str:
     password = [choice(ascii_letters) + choice(digits) + choice(punctuation) for _ in range(5)]

@@ -29,7 +29,7 @@ def upload_view(request):
         if pdf_file:
             doc = Documents.objects.create(pdf=pdf_file)
             cart = Cart(request)
-            cart.add(doc.id, 1, 'A4', 'W&B', 'ONE_SIDE', 'NO_BINDING')
+            cart.add(doc.id, 1, 'A4', 'WB', 'ONE_SIDE', 'NO_BINDING')
             return JsonResponse(
                 {'ok': True, 'filename': str(doc), 'filepath': doc.pdf.url,
                  'id': doc.id,

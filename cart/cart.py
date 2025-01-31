@@ -5,14 +5,14 @@ from django.core.handlers.wsgi import WSGIRequest
 class Cart:
     class Options:
         SIZES = ('A3', 'A4', 'A5')
-        COLORS = ('W&B', 'C50', 'C100')
+        COLORS = ('WB', 'C50', 'C100')
         TYPE = ('ONE_SIDE', 'BOTH_SIDES', 'TWO_PAGES_PER_SIDE')
         EXTRA_OPTIONS = ('COVERED_NO_PUNCH', 'COVERED_PUNCHED', 'NO_BINDING')
         FRONTEND = {
             'A3': 'A3',
             'A4': 'A4',
             'A5': 'A5',
-            'W&B': 'سیاه سفید',
+            'WB': 'سیاه سفید',
             'C50': 'رنگی 50 درصد',
             'C100': 'رنگی 100 درصد',
             'ONE_SIDE': 'یک رو',

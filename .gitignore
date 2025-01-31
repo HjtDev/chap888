@@ -134,3 +134,7 @@ static/
 !order/static/
 
 media/
+
+prices.json
+
+settings.json

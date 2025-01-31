@@ -93,7 +93,7 @@ $(document).ready(function () {
                                     </td>
                                     <td class="document-color">
                                         <select id="document-color-${response.id}" style="width: 110px;">
-                                            <option value="W&B" selected>سیاه سفید</option>
+                                            <option value="WB" selected>سیاه سفید</option>
                                             <option value="C50">رنگی 50 درصد</option>
                                             <option value="C100">رنگی 100 درصد</option>
                                         </select>
