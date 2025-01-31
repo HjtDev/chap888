@@ -7,14 +7,20 @@ from io import BytesIO
 from django.core.files.base import ContentFile
 from django.db import transaction
 from PyPDF2 import PdfReader
+from django.core.exceptions import ValidationError
 
 
 def document_path(instance, filename):
     return f'documents/{datetime.today().strftime("%Y/%m/%d")}/{filename}'
 
+def pdf_size_validator(pdf):
+    if pdf.size > 10485760:  # 10MB
+        raise ValidationError('حجم فایل باید کمتر از 10 مگابایت باشد.')
+
+
 
 class Documents(models.Model):
-    pdf = models.FileField(upload_to=document_path, verbose_name='فایل')
+    pdf = models.FileField(upload_to=document_path, verbose_name='فایل', validators=[pdf_size_validator])
     # thumbnail = ResizedImageField(upload_to=document_path, size=[60, 70], quality=100, keep_meta=True,
     #                               editable=False, null=True, blank=True)
 

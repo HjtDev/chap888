@@ -56,6 +56,10 @@ $(document).ready(function () {
     $('#file-input').on('change', function () {
         var file = this.files[0];
         if (file && file.type === 'application/pdf') {
+            if (file.size > 10485760) {
+                alert('حجم فایل باید کمتر از 10 مگابایت باشد.   ');
+                return;
+            }
             var formData = new FormData();
             formData.append('pdf_file', file);
 
@@ -79,7 +83,7 @@ $(document).ready(function () {
                                         </a>
                                     </td>
                                     <td class="document-name">
-                                        <a href="">${response.filename}</a>
+                                        <a href="${response.filepath}" target="_blank">${response.filename}</a>
                                     </td>
                                     <td class="document-pages">
                                         <a id="document-pages-${response.id}">${response.pages}</a>
