@@ -2,6 +2,8 @@ from django.contrib import admin
 from .models import Order, OrderItem, Transaction, Discount
 from django_jalali.admin.filters import JDateFieldListFilter
 import django_jalali.admin as jadmin
+from account.models import User
+from jdatetime import datetime
 
 
 class OrderItemInline(admin.StackedInline):
@@ -46,7 +48,6 @@ class TransactionAdmin(admin.ModelAdmin):
         '__str__',
         'reason',
         'status',
-        'description',
         'price',
         'created_at'
     )
@@ -55,9 +56,17 @@ class TransactionAdmin(admin.ModelAdmin):
         'reason',
         'status'
     )
+    list_editable = ('reason', 'status')
     search_fields = ('id', 'description')
     ordering = ('created_at',)
 
+
+@admin.action(description='ارسال کد تخفیف برای کاربران')
+def send_discount_to_users(modeladmin, request, queryset):
+    for discount in queryset.all():
+        for user in User.objects.all():
+            if discount.validate(user.phone):
+                print(f'SMS Notification - Discount for {user.phone} | Code: {discount.token}')
 
 @admin.register(Discount)
 class DiscountAdmin(admin.ModelAdmin):
@@ -65,3 +74,4 @@ class DiscountAdmin(admin.ModelAdmin):
     list_filter = ('expire_at', JDateFieldListFilter),
     search_fields = ('token', 'value')
     readonly_fields = ('used_by',)
+    actions = [send_discount_to_users]

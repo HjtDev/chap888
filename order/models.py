@@ -7,6 +7,7 @@ from cart.models import Documents
 from django.utils import timezone
 from django_jalali.db import models as jmodels
 from main.views import load_prices
+from jdatetime import datetime
 
 
 class Order(models.Model):
@@ -44,9 +45,9 @@ class Order(models.Model):
     def __str__(self):
         return f'Order-{self.order_id}: {self.first_name} {self.last_name}'
 
-    def get_total_price(self, post_price, discount: 'Discount' = None):
-        price = sum(item.price for item in self.items.all())
-        return (price + post_price - discount.calculate(price)) if discount else price + post_price
+    def get_total_price(self, post_price, discount: 'Discount' = None) -> (int, int):
+        price = sum([item.price for item in self.items.all()])
+        return price, (price + post_price - discount.calculate(price)) if discount else price + post_price
 
     get_total_price.short_description = 'هزینه نهایی'
 
@@ -110,6 +111,10 @@ class OrderItem(models.Model):
 
     get_item_cost.short_description = 'قیمت'
 
+    def __str__(self):
+        return f'{self.document} x{self.quantity} - {self.price} | {self.size} - {self.color} - {self.print_type} - {self.extra}'
+
+
 
 class Transaction(models.Model):
     objects = jmodels.jManager()
@@ -119,14 +124,16 @@ class Transaction(models.Model):
         REFUND = 'بازگشت وجه', _('بازگشت وجه')
 
     class TransactionStatusChoice(models.TextChoices):
+        PENDING = 'پرداخت نشده', _('پرداخت نشده')
         PAID = 'پرداخت موفق', _('پرداخت موفق')
         FAILED = 'پرداخت ناموفق', _('پرداخت ناموفق')
 
     user = models.ForeignKey(User, on_delete=models.SET_NULL, related_name='transactions', verbose_name='کاربر',
                              blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, related_name='transactions', blank=True, null=True, verbose_name='سفارش')
     reason = models.CharField(verbose_name='علت تراکنش', choices=ReasonChoice.choices, max_length=21)
     status = models.CharField(verbose_name='وضعیت تراکنش', choices=TransactionStatusChoice.choices, max_length=21)
-    description = models.TextField(verbose_name='توضیحات نراکنش')
+    description = models.TextField(verbose_name='توضیحات تراکنش')
     price = models.PositiveIntegerField(verbose_name='هزینه', default=0)
     created_at = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
 
@@ -155,15 +162,15 @@ class Discount(models.Model):
     token = models.CharField(max_length=20, unique=True, verbose_name='کد تخفیف')
     value = models.CharField(max_length=7, verbose_name='مقدار تخفیف', help_text='تخفیف به تومان یا درصد',
                              validators=[discount_value_validator])
-    expire_at = jmodels.jDateTimeField(verbose_name='تاریخ انقضا')
+    expire_at = jmodels.jDateTimeField(verbose_name='تاریخ انقضا', default=datetime.today)
 
     used_by = models.ManyToManyField(User, related_name='used_discounts', verbose_name='کاربر')
 
     def __str__(self):
-        return f'{self.id} -- {self.token} -- {self.value}'
+        return f'Discount -- {self.token} -- {self.value}'
 
     def validate(self, phone):
-        return not (timezone.now() > self.expire_at or self.used_by.filter(phone=phone).exists())
+        return not (datetime.now() > self.expire_at or self.used_by.filter(phone=phone).exists())
 
     def calculate(self, price):
         if '%' in self.value:
