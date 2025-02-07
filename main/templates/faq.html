@@ -6,7 +6,6 @@
 
 {% block content %}
 
-
     <div class="page-title-area bg-4 mt-100">
         <div class="container">
             <div class="page-title-content">
@@ -23,7 +22,6 @@
         </div>
     </div>
 
-
     <section class="faq-page-style pt-100 pb-70">
         <div class="container">
             <div class="row">
@@ -39,7 +37,11 @@
                                     </a>
                                     <div class="accordion-content {% if forloop.first %}show{% endif %}">
                                         <span>پاسخ:</span>
-                                        <p>{{ item.answer }}</p>
+                                        {% if item.is_video %}
+                                            <p>{{ item.answer | safe }}</p>
+                                        {% else %}
+                                            <p>{{ item.answer }}</p>
+                                        {% endif %}
                                     </div>
                                 </li>
                             {% endfor %}
