@@ -85,6 +85,7 @@ class OrderItem(models.Model):
         NO_BINDING = ('NO_BINDING', _('بدون صحافی'))
         COVERED_NO_PUNCH = ('COVERED_NO_PUNCH', _('کاور شده بدون پانچ'))
         COVERED_PUNCHED = ('COVERED_PUNCHED', _('کاور شده با پانچ'))
+        WIRE_BOUND = ('WIRE_BOUND', _('صحافی کامل با فنر'))
 
     size = models.CharField(max_length=2, choices=SizeChoices.choices, verbose_name='اندازه')
     color = models.CharField(max_length=21, choices=ColorChoices.choices, verbose_name='رنگ')

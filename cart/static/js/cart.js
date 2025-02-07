@@ -90,16 +90,16 @@ $(document).ready(function () {
                                     </td>
                                     <td class="document-size">
                                         <select id="document-size-${response.id}">
-                                            <option value="A3">A3</option>
+                                            <option value="A3" disabled>A3</option>
                                             <option value="A4" selected>A4</option>
-                                            <option value="A5">A5</option>
+                                            <option value="A5" disabled>A5</option>
                                         </select>
                                     </td>
                                     <td class="document-color">
                                         <select id="document-color-${response.id}" style="width: 110px;">
                                             <option value="WB" selected>سیاه سفید</option>
-                                            <option value="C50">رنگی 50 درصد</option>
-                                            <option value="C100">رنگی 100 درصد</option>
+                                            <option value="C50" disabled>رنگی 50 درصد</option>
+                                            <option value="C100" disabled>رنگی 100 درصد</option>
                                         </select>
                                     </td>
                                     <td class="document-type">
@@ -114,6 +114,7 @@ $(document).ready(function () {
                                             <option value="NO_BINDING" selected>بدون صحافی</option>
                                             <option value="COVERED_NO_PUNCH">کاور شده بدون پانچ</option>
                                             <option value="COVERED_PUNCHED">کاور شده با پانچ</option>
+                                            <option value="WIRE_BOUND">صحافی کامل با فنر</option>
                                         </select>
                                     </td>
                                     <td class="document-quantity">

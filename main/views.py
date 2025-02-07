@@ -35,8 +35,8 @@ def index(request):
         'WB_BOTH_SIDES': prices.get('A4') + prices.get('WB') + prices.get('BOTH_SIDES') + prices.get('NO_BINDING'),
         'WB_BOOK': prices.get('A4') + prices.get('WB') + prices.get('TWO_PAGES_PER_SIDE') + prices.get('NO_BINDING'),
         'C100_BOTH_SIDES': prices.get('A4') + prices.get('C100') + prices.get('BOTH_SIDES') + prices.get('NO_BINDING'),
-        'COVERED_NO_PUNCH': prices.get('COVERED_NO_PUNCH'),
-        'COVERED_PUNCHED': prices.get('COVERED_PUNCHED')
+        # 'COVERED_NO_PUNCH': prices.get('COVERED_NO_PUNCH'),
+        'WIRE_BOUND': prices.get('WIRE_BOUND')
     }
     return render(request, 'index.html', context)
 
@@ -75,6 +75,7 @@ def control_panel_view(request):
             COVERED_NO_PUNCH = int(request.POST['COVERED_NO_PUNCH'])
             COVERED_PUNCHED = int(request.POST['COVERED_PUNCHED'])
             NO_BINDING = int(request.POST['NO_BINDING'])
+            WIRE_BOUND = int(request.POST['WIRE_BOUND'])
 
             with lock:
                 context = {
@@ -89,7 +90,8 @@ def control_panel_view(request):
                     'TWO_PAGES_PER_SIDE': TWO_PAGES_PER_SIDE,
                     'COVERED_NO_PUNCH': COVERED_NO_PUNCH,
                     'COVERED_PUNCHED': COVERED_PUNCHED,
-                    'NO_BINDING': NO_BINDING
+                    'NO_BINDING': NO_BINDING,
+                    'WIRE_BOUND': WIRE_BOUND
                 }
                 save_prices(context)
 

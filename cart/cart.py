@@ -7,7 +7,7 @@ class Cart:
         SIZES = ('A3', 'A4', 'A5')
         COLORS = ('WB', 'C50', 'C100')
         TYPE = ('ONE_SIDE', 'BOTH_SIDES', 'TWO_PAGES_PER_SIDE')
-        EXTRA_OPTIONS = ('COVERED_NO_PUNCH', 'COVERED_PUNCHED', 'NO_BINDING')
+        EXTRA_OPTIONS = ('COVERED_NO_PUNCH', 'COVERED_PUNCHED', 'NO_BINDING', 'WIRE_BOUND')
         FRONTEND = {
             'A3': 'A3',
             'A4': 'A4',
@@ -20,7 +20,8 @@ class Cart:
             'TWO_PAGES_PER_SIDE': 'هر دو صفحه یک رو',
             'COVERED_NO_PUNCH': 'کاور شده بدون پانچ',
             'COVERED_PUNCHED': 'کاور شده با پانچ',
-            'NO_BINDING': 'بدون صحافی'
+            'NO_BINDING': 'بدون صحافی',
+            'WIRE_BOUND': 'صحافی کامل با فنر'
         }
 
         @staticmethod
