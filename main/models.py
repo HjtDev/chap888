@@ -12,6 +12,11 @@ class FAQ(models.Model):
     def __str__(self):
         return self.question
 
+    def save(self, *args, **kwargs):
+        if self.is_video and '<style>' in self.answer or '<div' in self.answer:
+            self.answer = self.answer[self.answer.index('<iframe'):self.answer.index('</iframe>') + 9]
+        return super().save(*args, **kwargs)
+
     class Meta:
         verbose_name = 'سوال متداول'
         verbose_name_plural = 'سوالات متداول'
