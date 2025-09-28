@@ -9,6 +9,7 @@ from string import ascii_letters, digits, punctuation
 from .models import FAQ, Comment
 import threading, json, os
 from django.conf import settings
+from sms.sms import sms
 
 
 SETTINGS_FILE = os.path.join(settings.BASE_DIR, 'prices.json')
@@ -53,7 +54,8 @@ def sms_authentication(request, phone, user, previous_page='main:index', json_re
         request.session['auth'] = {'phone': phone, 'token': str(randint(100000, 999999)),
                                    'time': expire.strftime('%Y-%m-%dT%H:%M:%S'), 'prev': previous_page}
         request.session.modified = True
-        print('SMS Verification:', request.session['auth']['token'])
+        # print('SMS Verification:', request.session['auth']['token'])
+        sms.send_authentication(request.session['auth']['phone'], request.session['auth']['token'])
         messages.success(request, f'کد تایید به {request.session["auth"]["phone"]} پیامک شد.')
         return response()
     messages.info(request, f'کد تایید اخیرا برای شما ارسال شده است.')
