@@ -1,0 +1,135 @@
+{% extends 'parent/base.html' %}
+{% load alert_tags %}
+
+{% block title %}
+    کنترل مقادیر
+{% endblock %}
+
+{% block content %}
+    <div class="page-title-area bg-12 mt-100">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>کنترل مقادیر</h2>
+                <ul>
+                    <li>
+                        <a href="{% url 'main:index' %}">
+                            خانه
+                        </a>
+                    </li>
+                    <li class="active">کنترل مقادیر</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <section class="user-area ptb-100">
+        <div class="container">
+            <div class="user-form-content register">
+                <h3>قیمت به تومان</h3>
+                {% render_messages %}
+                <form class="user-form" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+
+                            <div class="form-group">
+                                <label>A3</label>
+                                <input class="form-control" type="number" name="A3" id="A3"
+                                       value="{{ A3 }}">
+                            </div>
+                            <div class="form-group">
+                                <label>A4</label>
+                                <input class="form-control" type="number" name="A4" id="A4"
+                                       value="{{ A4 }}">
+                            </div>
+                            <div class="form-group">
+                                <label>A5</label>
+                                <input class="form-control" type="number" name="A5" id="A5"
+                                       value="{{ A5 }}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>سیاه سفید</label>
+                                <input class="form-control" type="number" name="WB" id="WB"
+                                       value="{{ WB }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>رنگی 50 درصد</label>
+                                <input class="form-control" type="number" name="C50" id="C50"
+                                       value="{{ C50 }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>رنگی 100 درصد</label>
+                                <input class="form-control" type="number" name="C100" id="C100"
+                                       value="{{ C100 }}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>یک رو</label>
+                                <input class="form-control" type="number" name="ONE_SIDE" id="ONE_SIDE"
+                                       value="{{ ONE_SIDE }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>دو رو</label>
+                                <input class="form-control" type="number" name="BOTH_SIDES" id="BOTH_SIDES"
+                                       value="{{ BOTH_SIDES }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>هر دو صفحه یک رو</label>
+                                <input class="form-control" type="number" name="TWO_PAGES_PER_SIDE" id="TWO_PAGES_PER_SIDE"
+                                       value="{{ TWO_PAGES_PER_SIDE }}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>بدون صحافی</label>
+                                <input class="form-control" type="number" name="NO_BINDING" id="NO_BINDING"
+                                       value="{{ NO_BINDING }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>کاور شده بدون پانچ</label>
+                                <input class="form-control" type="number" name="COVERED_NO_PUNCH" id="COVERED_NO_PUNCH"
+                                       value="{{ COVERED_NO_PUNCH }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>کاور شده با پانچ</label>
+                                <input class="form-control" type="number" name="COVERED_PUNCHED" id="COVERED_PUNCHED"
+                                       value="{{ COVERED_PUNCHED }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>صحافی کامل با فنر</label>
+                                <input class="form-control" type="number" name="WIRE_BOUND" id="WIRE_BOUND"
+                                       value="{{ WIRE_BOUND }}">
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <button class="default-btn register" id="save">
+                                ذخیره
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

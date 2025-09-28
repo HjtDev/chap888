@@ -124,3 +124,17 @@ dmypy.json
 .pyre/
 
 .idea/
+
+main/static/
+
+static/
+
+!cart/static/
+
+!order/static/
+
+media/
+
+prices.json
+
+settings.json

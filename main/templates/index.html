@@ -1,0 +1,261 @@
+{% extends 'parent/base.html' %}
+{% load static %}
+
+{% block title %}
+	صفحه اصلی
+{% endblock %}
+
+{% block content %}
+    <section class="banner-area jarallax" data-jarallax='{"speed": 0.3}'>
+        <div class="d-table">
+            <div class="d-table-cell">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-8">
+                            <div class="banner-content">
+                                <span>چاپ 888</span>
+                                <h1>چاپ و پرینت و زیراکس با کیفیت و سریع</h1>
+                                <p>ارائه خدمات در اصفهان برای دانشجویان و دانش آموزان و مدارس و ادارات دولتی و غیردولتی</p>
+                            </div>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="banner-img">
+                                <img src="{% static 'assets/images/banner/new_main_banner.jpg' %}" alt="Image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-area align-custom pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="about-img">
+                        <img src="{% static 'assets/images/about-img-1.jpg' %}" alt="Image">
+                        <img src="{% static 'assets/images/about-img-2.jpg' %}" alt="Image" class="about-img-2">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="about-content">
+                        <span>درباره ما</span>
+                        <h2>دفتر فنی چاپ 888</h2>
+                        <p>دفتر فنی چاپ 888 با سال ها تجربه برای ارائه خدمات چاپ و پرینت و زیراکس به همراه ارسال پستی و قیمت مقرون به صرفه آماده است.</p>
+                        <ul>
+                            <li>
+                                <i class="ri-check-line"></i>
+                                چاپ ارزان
+                            </li>
+                            <li>
+                                <i class="ri-check-line"></i>
+                                مقرون به صرفه
+                            </li>
+                            <li>
+                                <i class="ri-check-line"></i>
+                                با کیفیت
+                            </li>
+                            <li>
+                                <i class="ri-check-line"></i>
+                                ارسال پستی سریع
+                            </li>
+                            <li>
+                                <i class="ri-check-line"></i>
+                                ارسال ویژه به اصفهان و نجف آباد
+                            </li>
+                        </ul>
+                        <a href="{% url 'cart:cart' %}" class="default-btn">
+                            همین الان سفارش خود را ثبت کنید
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="counter-area pt-100 pb-70 jarallax" data-jarallax='{"speed": 0.3}'>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-sm-6">
+                    <div class="single-counter">
+                        <div class="count-title">
+                            <i class="flaticon-address"></i>
+                            <h2>
+                                <span class="odometer" data-count="4">00</span>
+                            </h2>
+                            <h4>خدمات</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="single-counter">
+                        <div class="count-title">
+                            <i class="flaticon-consulting"></i>
+                            <h2>
+                                <span class="odometer" data-count="100">00</span>
+                                <span class="target">+</span>
+                            </h2>
+                            <h4>رضایت مشتری</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-6">
+                    <div class="single-counter">
+                        <div class="count-title">
+                            <i class="flaticon-quality"></i>
+                            <h2>
+                                <span class="odometer" data-count="5">00</span>
+                                <span class="target">سال</span>
+                            </h2>
+                            <h4>تجربه کاری</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="professional-services-area pt-100 pb-70">
+        <div class="container">
+            <div class="section-title">
+                <h2>قیمت ها</h2>
+                <p>لیست قیمت های چاپ 888 برای پر استفاده ترین ترکیب ها</p>
+            </div>
+            <div class="professional-services-slider owl-carousel owl-theme">
+                <div class="professional-services">
+                    <a href="{% url 'cart:cart' %}">
+                        <img src="{% static 'assets/images/services/WB-onesided.jpg' %}" alt="Image">
+                    </a>
+                    <div class="professional-services-content" style="height: 245px;">
+                        <h3>
+                            <a href="{% url 'cart:cart' %}">
+                                سیاه سفید یک رو
+                            </a>
+                        </h3>
+                        <p>سیاه سفید + A4 + یک رو + بدون صحافی + یک سری</p>
+                        <p>به ازای هر صفحه</p>
+                        <a href="{% url 'cart:cart' %}" class="read-more">
+                            {{ WB_ONE_SIDE }} تومان
+                        </a>
+                    </div>
+                </div>
+                <div class="professional-services">
+                    <a href="{% url 'cart:cart' %}">
+                        <img src="{% static 'assets/images/services/WB-bothsides.jpg' %}" alt="Image">
+                    </a>
+                    <div class="professional-services-content" style="height: 245px;">
+                        <h3>
+                            <a href="{% url 'cart:cart' %}">
+                                سیاه سفید دو رو
+                            </a>
+                        </h3>
+                        <p>سیاه سفید + A4 + دو رو + بدون صحافی + یک سری</p>
+                        <p>به ازای هر صفحه</p>
+                        <a href="{% url 'cart:cart' %}" class="read-more">
+                            {{ WB_BOTH_SIDES }} تومان
+                        </a>
+                    </div>
+                </div>
+                <div class="professional-services">
+                    <a href="{% url 'cart:cart' %}">
+                        <img src="{% static 'assets/images/services/WB-book.jpg' %}" alt="Image">
+                    </a>
+                    <div class="professional-services-content" style="height: 245px;">
+                        <h3>
+                            <a href="{% url 'cart:cart' %}">
+                                سیاه سفید کتابی
+                            </a>
+                        </h3>
+                        <p>سیاه سفید + A4 + دو صفحه پشت و دو صفحه رو + بدون صحافی + یک سری</p>
+                        <p>به ازای هر صفحه</p>
+                        <a href="{% url 'cart:cart' %}" class="read-more">
+                            {{ WB_BOOK }} تومان
+                        </a>
+                    </div>
+                </div>
+                <div class="professional-services">
+                    <a href="{% url 'cart:cart' %}">
+                        <img src="{% static 'assets/images/services/colored.jpg' %}" alt="Image">
+                    </a>
+                    <div class="professional-services-content" style="height: 245px;">
+                        <h3>
+                            <a href="{% url 'cart:cart' %}">
+                                رنگی با پس زمینه
+                            </a>
+                        </h3>
+                        <p>رنگی 100 درصد + A4 + دو رو + بدون صحافی + یک سری</p>
+                        <p>به ازای هر صفحه</p>
+                        <a href="{% url 'cart:cart' %}" class="read-more">
+                            {{ C100_BOTH_SIDES }} تومان
+                        </a>
+                    </div>
+                </div>
+                <div class="professional-services">
+                    <a href="{% url 'cart:cart' %}">
+                        <img src="{% static 'assets/images/services/binded.jpg' %}" alt="Image">
+                    </a>
+                    <div class="professional-services-content" style="height: 245px;">
+                        <h3>
+                            <a href="{% url 'cart:cart' %}">
+                                صحافی (فنر بندی سیمی)
+                            </a>
+                        </h3>
+                        <p>قیمت پایه</p>
+                        <a href="{% url 'cart:cart' %}" class="read-more">
+                            {{ WIRE_BOUND }} تومان
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="calling-area ptb-100 mt-100">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 col-md-8">
+                    <h2>آیا برای استفاده از خدمات چاپ نیاز به مشاوره دارید؟</h2>
+                    <p>بدیهی است که شما قبل از ثبت سفارش خود سوالاتی داشته باشید اکثر سوالات کاربران در بخش <a
+                            href="{% url 'main:faq' %}" style="color: #d00000;">سوالات متداول</a> جواب داده شده است همچنین قوانین نیز در بخش
+                        <a href="{% url 'main:terms' %}" style="color: #d00000;">شرایط و ضوابط</a> ذکر شده است. اگر هنوز پاسخ سوال خود را نیافته اید سوال خود را از طریق چت پشتیبانی ارسال کنید یا با ما تماس بگیرید.</p>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="call-now">
+                        <a href="tel:+989133382078" style="direction: ltr;" class="default-btn">تماس بگیرید</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials-area ptb-100">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="testimonials-img">
+                        <img src="{% static 'assets/images/testimonials-img.jpg' %}" alt="Image">
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="testimonials-content">
+                        <h2>بازخورد مشتریان</h2>
+                        <div class="owl-carousel owl-theme testimonials-slider">
+                            {% for comment in comments %}
+                                <div class="single-testimonials">
+                                    <div class="testimonials-img w-100 pr-1">
+                                        <h3>{{ comment.name }}</h3>
+                                        <span>{{ comment.commented_at }}</span>
+                                    </div>
+                                    <p>“{{ comment.text }}”</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}

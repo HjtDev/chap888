@@ -1,0 +1,82 @@
+{% extends 'parent/base.html' %}
+{% load alert_tags %}
+
+{% block title %}
+    ساخت حساب کاربری
+{% endblock %}
+
+{% block content %}
+    <div class="page-title-area bg-12 mt-100">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>ثبت نام</h2>
+                <ul>
+                    <li>
+                        <a href="{% url 'main:index' %}">
+                            خانه
+                        </a>
+                    </li>
+                    <li class="active">ثبت نام</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <section class="user-area ptb-100">
+        <div class="container">
+            <div class="user-form-content register">
+                <h3>ایجاد حساب کاربری</h3>
+                {% render_messages form=form %}
+                <form class="user-form" method="post">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>نام</label>
+                                <input class="form-control" type="text" name="first_name"
+                                       value="{{ form.first_name.value|default:'' }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>نام خانوادگی</label>
+                                <input class="form-control" type="text" name="last_name"
+                                       value="{{ form.last_name.value|default:'' }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>شماره تلفن</label>
+                                <input class="form-control" type="text" name="phone" maxlength="11" minlength="11"
+                                       value="{{ form.phone.value|default:'' }}" placeholder="09xxxxxxxxx">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>گذرواژه</label>
+                                <input class="form-control" type="password" name="password1"
+                                       value="{{ form.password1.value|default:'' }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-group">
+                                <label>تکرار گذرواژه</label>
+                                <input class="form-control" type="password" name="password2"
+                                       value="{{ form.password2.value|default:'' }}">
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button class="default-btn register" type="submit">
+                                ثبت نام
+                            </button>
+                        </div>
+                        <div class="col-12">
+                            <p class="create">حساب کاربری دارید؟ <a href="{% url 'account:login' %}">ورود کاربران</a>
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+{% endblock %}

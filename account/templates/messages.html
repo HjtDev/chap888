@@ -1,0 +1,36 @@
+{% if messages or form_errors %}
+    <div class="row justify-content-lg-center align-items-center mt-5">
+        {% if messages %}
+            <div class="col-lg-6 col-12">
+                {% for message in messages %}
+                    <div class="alert
+                        {% if message.tags %}
+                            {% if 'success' in message.tags %}alert-success
+                            {% elif 'warning' in message.tags %}alert-warning
+                            {% elif 'error' in message.tags %}alert-danger
+                            {% elif 'info' in message.tags %}alert-info
+                            {% else %}alert-secondary
+                            {% endif %}
+                        {% else %}alert-secondary
+                        {% endif %}
+                        " role="alert">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        {% if form_errors %}
+            <div class="alert alert-danger col-lg-6 col-12" role="alert">
+                <strong>اطلاعات شما دارای مشکل است.</strong>
+                <ul>
+                    {% for field, errors in form_errors.items %}
+                        {% for error in errors %}
+                            <li>{{ field|capfirst }}: {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+{% endif %}

@@ -1,0 +1,54 @@
+{% extends 'parent/base.html' %}
+
+{% block title %}
+    سوالات متداول
+{% endblock %}
+
+{% block content %}
+
+    <div class="page-title-area bg-4 mt-100">
+        <div class="container">
+            <div class="page-title-content">
+                <h2>سوالات متداول</h2>
+                <ul>
+                    <li>
+                        <a href="{% url 'main:index' %}">
+                            خانه
+                        </a>
+                    </li>
+                    <li class="active">سوالات متداول</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <section class="faq-page-style pt-100 pb-70">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="faq-accordion mr-15">
+                        <h2>سوالات متداول</h2>
+                        <ul class="accordion">
+                            {% for item in faq %}
+                                <li class="accordion-item">
+                                    <a class="accordion-title {% if forloop.first %}active{% endif %}" href="javascript:void(0)">
+                                        <i class="ri-add-line"></i>
+                                        <span>سوال:</span> {{ item.question }}
+                                    </a>
+                                    <div class="accordion-content {% if forloop.first %}show{% endif %}">
+                                        <span>پاسخ:</span>
+                                        {% if item.is_video %}
+                                            <p>{{ item.answer | safe }}</p>
+                                        {% else %}
+                                            <p>{{ item.answer }}</p>
+                                        {% endif %}
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
