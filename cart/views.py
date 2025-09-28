@@ -27,11 +27,13 @@ def upload_view(request):
     if request.method == 'POST':
         pdf_file = request.FILES.get('pdf_file')
         if pdf_file:
+            if pdf_file.size > 10485760:
+                return JsonResponse({'ok': False, 'error': 'حجم فایل باید کمتر از 10 مگابایت باشد.'})
             doc = Documents.objects.create(pdf=pdf_file)
             cart = Cart(request)
-            cart.add(doc.id, 1, 'A4', 'W&B', 'ONE_SIDE', 'NO_BINDING')
+            cart.add(doc.id, 1, 'A4', 'WB', 'ONE_SIDE', 'NO_BINDING')
             return JsonResponse(
-                {'ok': True, 'thumbnail': doc.thumbnail.url, 'filename': str(doc), 'filepath': doc.pdf.url,
+                {'ok': True, 'filename': str(doc), 'filepath': doc.pdf.url,
                  'id': doc.id,
                  'pages': doc.get_page_count()})
         return JsonResponse({'ok': False, 'error': 'فایل آپلود نشد لطفا اینترنت خود را برسی کرده و مجددا تلاش کنید'})

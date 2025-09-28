@@ -5,15 +5,17 @@ from django.core.cache import cache
 from cart.cart import Cart
 from .forms import OrderForm
 from uuid import uuid4
-from .models import OrderItem, Order, Discount
+from .models import OrderItem, Order, Discount, Transaction
 from account.models import User
 from main.views import sms_authentication, generate_password
+from main.views import load_prices
 
 
 def checkout_view(request):
     cart = Cart(request, converted=False)
     items = []
     total = 0
+    prices = load_prices()
     for item in cart:
         items.append((str(item['document']), item['quantity']))
         options = item['options']
@@ -24,8 +26,8 @@ def checkout_view(request):
             pages = max(1, pages // 2)
         elif options['print_type'] == 'TWO_PAGES_PER_SIDE':
             pages = max(1, pages // 4)
-        total += (cache.get(options['page_size']) + cache.get(options['print_color']) + cache.get(
-            options['print_type']) + cache.get(options['extra_options'])) * pages * int(item['quantity'])
+        total += (prices.get(options['page_size']) + prices.get(options['print_color']) + prices.get(
+            options['print_type']) + prices.get(options['extra_options'])) * pages * int(item['quantity'])
     if not items:
         messages.error(request, 'سبد خرید شما خالی است')
         return redirect('cart:cart')
@@ -93,20 +95,49 @@ def complete_order_view(request):
         cache.delete(f'order_specials:{order_pk}')
         post_price = 25000 if 'post_wanted' in specials and 'free_post' not in specials else 0
         discount_token = [special.split(':')[-1] for special in specials if 'discount' in special]
+        base = 0
         total = 0
+        discount = None
         if discount_token:
             discount = Discount.objects.get(token=discount_token[0])
             if discount.validate(order.phone):
                 discount.used_by.add(order.user)
                 discount.save()
-                total = order.get_total_price(post_price, discount)
+                base, total = order.get_total_price(post_price, discount)
         else:
-            total = order.get_total_price(post_price)
-        return HttpResponse(f'Payment: {total} Toman')
+            base, total = order.get_total_price(post_price)
+        transaction = Transaction(
+            user = order.user,
+            order = order,
+            reason = Transaction.ReasonChoice.ORDER,
+            status = Transaction.TransactionStatusChoice.PENDING,
+            price = total,
+            description = ''
+        )
+        transaction_text = []
+        if discount_token:
+            transaction_text.append(f'کد تخفیف: {discount_token[0]}')
+            transaction_text.append(f'مقدار تخفیف: {discount.value}')
+        transaction_text.append(f'هزینه پست: {post_price}')
+        transaction_text.append(f'قیمت پایه: {base}')
+        transaction_text.append(f'قیمت نهایی: {total}')
+        for item in order.items.all():
+            transaction_text.append(str(item))
+        transaction.description = '\n'.join(transaction_text)
+        transaction.save()
+        messages.info(request, 'مشتری گرامی در صورت تایید شدن سفارش شما کد سفارش برای شما ارسال خواهد شد. پس از دریافت کد سفارش می توانید وضعیت سفارش خود را از صفحه "وضعیت سفارش" برسی کنید.')
+        if total > 0:
+            messages.info(request, f'پس از دریافت کد سفارش خود مبلغ {total} تومان را به شماره کارت 6037998209302941 به نام محمد تقی جمشیدی واریز کنید.')
+            messages.info(request, 'پس از واریز از طریق چت پشتیبانی یا با تماس با شماره 09133382078 اطلاعات فیش واریز و کد سفارش خود را ارسال کنید تا در اولین فرصت سفارش شما پیگیری شود.')
+        print('SMS Notification')
+        print(f'سفارش شما با کد {order.order_id} ثبت شد.')
+        print(f'مشتری {order.user.fullname()} ثبت سفارش کرد.')
+        return redirect('order:result')
     except Order.DoesNotExist:
-        print('Order does not exist')
+        messages.warning(request, 'شما سفارش خود را لغو کردید.')
     except Discount.DoesNotExist:
-        print('Discount does not exist')
+        messages.warning(request, 'شما سفارش خود را لغو کردید.')
+    return redirect('cart:cart')
 
 
 def check_discount(request):
@@ -139,3 +170,7 @@ def status_view(request):
         except Order.DoesNotExist:
             messages.error(request, 'کد سفارش اشتباه است.')
     return render(request, 'status.html')
+
+
+def result_view(request):
+    return render(request, 'result.html')

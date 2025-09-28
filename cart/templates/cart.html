@@ -35,7 +35,7 @@
                         <thead>
                         <tr>
                             <th scope="col">حذف</th>
-                            <th scope="col">فایل</th>
+{#                            <th scope="col">فایل</th>#}
                             <th scope="col">نام فایل</th>
                             <th scope="col">تعداد صفحات</th>
                             <th scope="col">ابعاد</th>
@@ -55,32 +55,32 @@
                                             <i class="ri-delete-bin-line"></i>
                                         </a>
                                     </td>
-                                    <td class="document-thumbnail">
-                                        <a href="{{ item.document.thumbnail.url }}">
-                                            <img src="{{ item.document.thumbnail.url }}" alt="{{ item.document }}">
-                                        </a>
-                                    </td>
+{#                                    <td class="document-thumbnail">#}
+{#                                        <a href="{{ item.document.thumbnail.url }}">#}
+{#                                            <img src="{{ item.document.thumbnail.url }}" alt="{{ item.document }}">#}
+{#                                        </a>#}
+{#                                    </td>#}
                                     <td class="document-name">
                                         <a href="{{ item.document.pdf.url }}"
-                                           style="font-size: 13px">{{ item.document }}</a>
+                                           style="font-size: 13px" target="_blank">{{ item.document }}</a>
                                     </td>
                                     <td class="document-pages">
                                         <a id="document-pages-{{ item.document.id }}">{{ pages }}</a>
                                     </td>
                                     <td class="document-size">
                                         <select id="document-size-{{ item.document.id }}">
-                                            <option value="A3" {% selected item.options 'A3' %}>A3</option>
+                                            <option value="A3" {% selected item.options 'A3' %} disabled>A3</option>
                                             <option value="A4" {% selected item.options 'A4' %}>A4</option>
-                                            <option value="A5" {% selected item.options 'A5' %}>A5</option>
+                                            <option value="A5" {% selected item.options 'A5' %} disabled>A5</option>
                                         </select>
                                     </td>
                                     <td class="document-color">
                                         <select id="document-color-{{ item.document.id }}" style="width: 110px;">
-                                            <option value="W&B" {% selected item.options 'سیاه سفید' %}>سیاه سفید
+                                            <option value="WB" {% selected item.options 'سیاه سفید' %}>سیاه سفید
                                             </option>
-                                            <option value="C50" {% selected item.options 'رنگی 50 درصد' %}>رنگی 50 درصد
+                                            <option value="C50" {% selected item.options 'رنگی 50 درصد' %} disabled>رنگی 50 درصد
                                             </option>
-                                            <option value="C100" {% selected item.options 'رنگی 100 درصد' %}>رنگی 100
+                                            <option value="C100" {% selected item.options 'رنگی 100 درصد' %} disabled>رنگی 100
                                                 درصد
                                             </option>
                                         </select>
@@ -90,7 +90,7 @@
                                             <option value="ONE_SIDE" {% selected item.options 'یک رو' %}>یک رو</option>
                                             <option value="BOTH_SIDES" {% selected item.options 'دو رو' %} {% if pages == 1 %}disabled{% endif %}>دو رو
                                             </option>
-                                            <option value="TWO_PAGES_PER_SIDE" {% selected item.options 'هر دو صفحه یک رو' %}>
+                                            <option value="TWO_PAGES_PER_SIDE" {% selected item.options 'هر دو صفحه یک رو' %} {% if pages == 1 %}disabled{% endif %}>
                                                 دو در یک
                                             </option>
                                         </select>
@@ -105,6 +105,9 @@
                                             </option>
                                             <option value="COVERED_PUNCHED" {% selected item.options 'کاور شده با پانچ' %}>
                                                 کاور شده با پانچ
+                                            </option>
+                                            <option value="WIRE_BOUND" {% selected item.options 'صحافی کامل با فنر' %}>
+                                                صحافی کامل با فنر
                                             </option>
                                         </select>
                                     </td>

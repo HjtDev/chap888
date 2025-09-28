@@ -56,6 +56,10 @@ $(document).ready(function () {
     $('#file-input').on('change', function () {
         var file = this.files[0];
         if (file && file.type === 'application/pdf') {
+            if (file.size > 10485760) {
+                alert('حجم فایل باید کمتر از 10 مگابایت باشد.   ');
+                return;
+            }
             var formData = new FormData();
             formData.append('pdf_file', file);
 
@@ -78,36 +82,31 @@ $(document).ready(function () {
                                             <i class="ri-delete-bin-line"></i>
                                         </a>
                                     </td>
-                                    <td class="document-thumbnail">
-                                        <a href="${response.thumbnail}">
-                                            <img src="${response.thumbnail}" alt="Document ${response.id}">
-                                        </a>
-                                    </td>
                                     <td class="document-name">
-                                        <a href="">${response.filename}</a>
+                                        <a href="${response.filepath}" target="_blank">${response.filename}</a>
                                     </td>
                                     <td class="document-pages">
                                         <a id="document-pages-${response.id}">${response.pages}</a>
                                     </td>
                                     <td class="document-size">
                                         <select id="document-size-${response.id}">
-                                            <option value="A3">A3</option>
+                                            <option value="A3" disabled>A3</option>
                                             <option value="A4" selected>A4</option>
-                                            <option value="A5">A5</option>
+                                            <option value="A5" disabled>A5</option>
                                         </select>
                                     </td>
                                     <td class="document-color">
                                         <select id="document-color-${response.id}" style="width: 110px;">
-                                            <option value="W&B" selected>سیاه سفید</option>
-                                            <option value="C50">رنگی 50 درصد</option>
-                                            <option value="C100">رنگی 100 درصد</option>
+                                            <option value="WB" selected>سیاه سفید</option>
+                                            <option value="C50" disabled>رنگی 50 درصد</option>
+                                            <option value="C100" disabled>رنگی 100 درصد</option>
                                         </select>
                                     </td>
                                     <td class="document-type">
                                         <select id="document-type-${response.id}">
                                             <option value="ONE_SIDE" selected>یک رو</option>
                                             <option value="BOTH_SIDES"${optionDisabled}>دو رو</option>
-                                            <option value="TWO_PAGES_PER_SIDE">دو در یک</option>
+                                            <option value="TWO_PAGES_PER_SIDE" ${optionDisabled}>دو در یک</option></option>
                                         </select>
                                     </td>
                                     <td class="document-extra">
@@ -115,6 +114,7 @@ $(document).ready(function () {
                                             <option value="NO_BINDING" selected>بدون صحافی</option>
                                             <option value="COVERED_NO_PUNCH">کاور شده بدون پانچ</option>
                                             <option value="COVERED_PUNCHED">کاور شده با پانچ</option>
+                                            <option value="WIRE_BOUND">صحافی کامل با فنر</option>
                                         </select>
                                     </td>
                                     <td class="document-quantity">
