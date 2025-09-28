@@ -129,9 +129,6 @@ def complete_order_view(request):
         if total > 0:
             messages.info(request, f'پس از دریافت کد سفارش خود مبلغ {total} تومان را به شماره کارت 6037998209302941 به نام محمد تقی جمشیدی واریز کنید.')
             messages.info(request, 'پس از واریز از طریق چت پشتیبانی یا با تماس با شماره 09133382078 اطلاعات فیش واریز و کد سفارش خود را ارسال کنید تا در اولین فرصت سفارش شما پیگیری شود.')
-        print('SMS Notification')
-        print(f'سفارش شما با کد {order.order_id} ثبت شد.')
-        print(f'مشتری {order.user.fullname()} ثبت سفارش کرد.')
         return redirect('order:result')
     except Order.DoesNotExist:
         messages.warning(request, 'شما سفارش خود را لغو کردید.')
