@@ -83,6 +83,7 @@ $(document).ready(function () {
                                 updateProgress(percentComplete);
                             } else {
                                 hideProgressBar();
+                                updateProgress(0);
                             }
                         }
                     }, false)
@@ -265,4 +266,6 @@ $(document).ready(function () {
   function hideProgressBar() {
     $('#progress-overlay').fadeOut(200);
   }
+
+  updateProgress(0);
 });
