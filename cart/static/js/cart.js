@@ -26,13 +26,13 @@ $(document).ready(function () {
             var quantity = parseInt($(this).find(`#document-quantity-${documentId}`).val(), 10);
             var pages = parseInt($(`#document-pages-${documentId}`).text(), 10);
 
-            if(type !== 'ONE_SIDE' && pages % 2 !== 0) {
+            if (type !== 'ONE_SIDE' && pages % 2 !== 0) {
                 pages += 1;
             }
 
-            if(type === 'BOTH_SIDES') {
+            if (type === 'BOTH_SIDES') {
                 pages = Math.max(1, pages / 2);
-            } else if(type === 'TWO_PAGES_PER_SIDE') {
+            } else if (type === 'TWO_PAGES_PER_SIDE') {
                 pages = Math.max(1, pages / 4)
             }
 
@@ -56,8 +56,8 @@ $(document).ready(function () {
     $('#file-input').on('change', function () {
         var file = this.files[0];
         if (file && file.type === 'application/pdf') {
-            if (file.size > 10485760) {
-                alert('حجم فایل باید کمتر از 10 مگابایت باشد.   ');
+            if (file.size > 73400320) {
+                alert('حجم فایل باید کمتر از 70 مگابایت باشد.   ');
                 return;
             }
             var formData = new FormData();
@@ -72,9 +72,25 @@ $(document).ready(function () {
                 data: formData,
                 contentType: false,
                 processData: false,
+                xhr: function (event) {
+                    let xhr = new window.XMLHttpRequest();
+
+                    showProgressBar();
+                    xhr.upload.addEventListener('progress', function (evt) {
+                        if (evt.lengthComputable) {
+                            let percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                            if(percentComplete < 100) {
+                                updateProgress(percentComplete);
+                            } else {
+                                hideProgressBar();
+                            }
+                        }
+                    }, false)
+                    return xhr
+                },
                 success: function (response) {
                     if (response.ok) {
-                        var optionDisabled = (response.pages == 1) ? 'disabled':'';
+                        var optionDisabled = (response.pages == 1) ? 'disabled' : '';
                         var newRow = `
                                 <tr id="row-document-${response.id}" class="cart-item">
                                     <td class="trash">
@@ -226,4 +242,27 @@ $(document).ready(function () {
             }
         });
     });
+
+  function updateProgress(value) {
+    var val = parseInt(value);
+    var $circle = $('#svg #bar');
+
+    if (isNaN(val)) val = 0;
+    val = Math.min(Math.max(val, 0), 100);
+
+    var r = $circle.attr('r');
+    var c = Math.PI * (r * 2);
+    var pct = ((100 - val) / 100) * c;
+
+    $circle.css({ strokeDashoffset: pct });
+    $('#cont').attr('data-pct', val);
+  }
+
+  function showProgressBar() {
+    $('#progress-overlay').fadeIn(200);
+  }
+
+  function hideProgressBar() {
+    $('#progress-overlay').fadeOut(200);
+  }
 });

@@ -27,8 +27,8 @@ def upload_view(request):
     if request.method == 'POST':
         pdf_file = request.FILES.get('pdf_file')
         if pdf_file:
-            if pdf_file.size > 10485760:
-                return JsonResponse({'ok': False, 'error': 'حجم فایل باید کمتر از 10 مگابایت باشد.'})
+            if pdf_file.size > 73400320:
+                return JsonResponse({'ok': False, 'error': 'حجم فایل باید کمتر از 70 مگابایت باشد.'})
             doc = Documents.objects.create(pdf=pdf_file)
             cart = Cart(request)
             cart.add(doc.id, 1, 'A4', 'WB', 'ONE_SIDE', 'NO_BINDING')
