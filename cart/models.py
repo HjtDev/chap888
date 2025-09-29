@@ -14,8 +14,8 @@ def document_path(instance, filename):
     return f'documents/{datetime.today().strftime("%Y/%m/%d")}/{filename}'
 
 def pdf_size_validator(pdf):
-    if pdf.size > 10485760:  # 10MB
-        raise ValidationError('حجم فایل باید کمتر از 10 مگابایت باشد.')
+    if pdf.size > 73400320:  # 10MB
+        raise ValidationError('حجم فایل باید کمتر از 70 مگابایت باشد.')
 
 
 
